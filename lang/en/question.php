@@ -22,6 +22,14 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['nostepsavailablemessage'] = 'There are no previous saved versions available to undo to';
+$string['selectsaveforreplay'] = 'Available saves';
+$string['replaydialoguewarningmessage'] = 'You must select a previous save to undo to.';
+$string['replay'] = 'Undo';
+$string['replay_arialabel'] = 'Set question back to a previous state';
+$string['elapsedminutes'] = 'minutes ago';
+$string['replaystep'] = 'Undo';
+$string['replaydialoguetitle'] = 'Undo';
 $string['addmorechoiceblanks'] = 'Blanks for {no} more choices';
 $string['addcategory'] = 'Add category';
 $string['adminreport'] = 'Report on possible problems in your question database.';

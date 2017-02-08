@@ -374,6 +374,7 @@ $string['question:config'] = 'Configure question types';
 $string['question:editall'] = 'Edit all questions';
 $string['question:editmine'] = 'Edit your own questions';
 $string['question:flag'] = 'Flag questions while attempting them';
+$string['question:getsteps'] = 'Retrieve the metadata of steps completed';
 $string['question:managecategory'] = 'Edit question categories';
 $string['question:moveall'] = 'Move all questions';
 $string['question:movemine'] = 'Move your own questions';

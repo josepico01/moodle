@@ -62,6 +62,15 @@ class quiz_attempt {
     /** @var string to identify the abandoned state. */
     const ABANDONED   = 'abandoned';
 
+    /** @var string return code for a successful auto-save*/
+    const AUTOSAVE_SUCCESS_CODE = '0';
+    /** @var string return message for a successful auto-save */
+    const AUTOSAVE_SUCCESS = 'success';
+    /** @var string return code for a failed auto-save where a sequence check number is wrong */
+    const AUTOSAVE_WRONG_SEQUENCE_CODE = '1';
+    /** @var string return message for a failed auto-save where a sequence check number is wrong */
+    const AUTOSAVE_WRONG_SEQUENCE = 'wrong sequence number';
+
     /** @var int maximum number of slots in the quiz for the review page to default to show all. */
     const MAX_SLOTS_FOR_DEFAULT_REVIEW_SHOW_ALL = 50;
 
@@ -537,6 +546,16 @@ class quiz_attempt {
      */
     public function get_sum_marks() {
         return $this->attempt->sumgrades;
+    }
+
+    /**
+     * Collection of changed sequence checks with
+     * their associated field names.
+     *
+     * @return array
+     */
+    public function get_updated_sequence_checks() {
+        return $this->quba->get_updated_sequence_checks();
     }
 
     /**
@@ -1400,6 +1419,10 @@ class quiz_attempt {
             }
         }
 
+        if ($this->can_replay_responses()) {
+            $displayoptions->replayresponse = 1;
+        }
+
         if ($seq === null) {
             $output = $this->quba->render_question($slot, $displayoptions, $number);
         } else {
@@ -1411,6 +1434,16 @@ class quiz_attempt {
         }
 
         return $output;
+    }
+
+    /**
+     * Is response replay enabled.
+     *
+     * @return bool
+     */
+    public function can_replay_responses() {
+        return $this->get_quiz()->responsereplayenabled === '1' &&
+            get_config('quiz', 'responsereplayavailable') === '1';
     }
 
     /**
@@ -1693,7 +1726,7 @@ class quiz_attempt {
             $simulatedpostdata = null;
         }
 
-        $this->quba->process_all_actions($timestamp, $simulatedpostdata);
+        $this->quba->process_all_actions($timestamp, $simulatedpostdata, $this->can_replay_responses());
         question_engine::save_questions_usage_by_activity($this->quba);
 
         $this->attempt->timemodified = $timestamp;
@@ -1766,13 +1799,21 @@ class quiz_attempt {
      *
      * @param int $timestamp the timestamp that should be stored as the modified.
      * time in the database for these actions. If null, will use the current time.
+     * @param array $postdata simulated post data
      */
-    public function process_auto_save($timestamp) {
+    public function process_auto_save($timestamp, array $postdata = null) {
         global $DB;
 
         $transaction = $DB->start_delegated_transaction();
 
-        $this->quba->process_all_autosaves($timestamp);
+        $conversioninterval = get_config('quiz', 'autosaveconversioninterval');
+        if ($postdata !== null) {
+            $this->quba->process_all_autosaves($timestamp, $this->quba->prepare_simulated_post_data($postdata),
+                $conversioninterval);
+        } else {
+            $this->quba->process_all_autosaves($timestamp, null, $conversioninterval);
+        }
+
         question_engine::save_questions_usage_by_activity($this->quba);
         $this->fire_attempt_autosaved_event();
 

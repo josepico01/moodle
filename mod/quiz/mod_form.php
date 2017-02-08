@@ -39,7 +39,7 @@ use mod_quiz\question\display_options;
  */
 class mod_quiz_mod_form extends moodleform_mod {
     /** @var array options to be used with date_time_selector fields in the quiz. */
-    public static $datefieldoptions = ['optional' => true];
+    public static $datefieldoptions = ['optional' => true, 'step' => 1];
 
     /** @var array caches the quiz overall feedback, for convenience. */
     protected $_feedbacks;
@@ -202,6 +202,20 @@ class mod_quiz_mod_form extends moodleform_mod {
         if ($this->get_max_attempts_for_any_override() < 2) {
             $mform->hideIf('attemptonlast', 'attempts', 'eq', 1);
         }
+
+        // Allow user to use response replays during quiz.
+        if ($quizconfig->responsereplayavailable == '1') {
+            $mform->addElement('selectyesno', 'responsereplayenabled', get_string('responsereplayenabled', 'quiz'));
+            $mform->addHelpButton('responsereplayenabled', 'responsereplayenabled', 'quiz');
+            $mform->setAdvanced('responsereplayenabled', $quizconfig->responsereplaydefault_adv);
+            if (!has_capability('mod/quiz:setresponsereplay', $this->context)) {
+                $mform->freeze('responsereplayenabled');
+            }
+        } else {
+            $mform->addElement('hidden', 'responsereplayenabled');
+            $mform->setType('responsereplayenabled', PARAM_BOOL);
+        }
+        $mform->setDefault('responsereplayenabled', $quizconfig->responsereplaydefault);
 
         // -------------------------------------------------------------------------------
         $mform->addElement('header', 'reviewoptionshdr',
@@ -525,6 +539,8 @@ class mod_quiz_mod_form extends moodleform_mod {
     public function validation($data, $files) {
         $errors = parent::validation($data, $files);
 
+        $quizconfig = get_config('quiz');
+
         // Check open and close times are consistent.
         if ($data['timeopen'] != 0 && $data['timeclose'] != 0 &&
                 $data['timeclose'] < $data['timeopen']) {
@@ -602,10 +618,42 @@ class mod_quiz_mod_form extends moodleform_mod {
         if (($data['preferredbehaviour'] == 'deferredcbm') OR ($data['preferredbehaviour'] == 'immediatecbm')) {
             unset($errors['gradepass']);
         }
+        // Check response replay.
+        if ($this->invalid_responsereplay_setting_change($data, $quizconfig)) {
+            $errors['responsereplayenabled'] = get_string('responsereplayenabledinvaliddata', 'quiz');
+        }
+
         // Any other rule plugins.
         $errors = access_manager::validate_settings_form_fields($errors, $data, $files, $this);
 
         return $errors;
+    }
+
+    /**
+     * Checks if the response replay setting has been changed and if so
+     * if it has been changed by a user with permission to do so.
+     *
+     * @param array $data existing form data
+     * @param stdClass $quizconfig quiz configuration details
+     * @return bool
+     */
+    private function invalid_responsereplay_setting_change(array &$data, stdClass &$quizconfig) {
+        // They have permission to set it so it should be valid as long as it passes standard form controls.
+        if (has_capability('mod/quiz:setresponsereplay', $this->context)) {
+            return false;
+        }
+        // It hasn't been changed from the previous value so they haven't modified it.
+        if (isset($this->get_current()->responsereplayenabled) &&
+            $data['responsereplayenabled'] == $this->get_current()->responsereplayenabled) {
+            return false;
+        }
+        // It has never been set in the past and it matches the global default.
+        if (!isset($this->get_current()->responsereplayenabled) &&
+            $data['responsereplayenabled'] == $quizconfig->responsereplaydefault) {
+            return false;
+        }
+        // Invalid value.
+        return true;
     }
 
     /**

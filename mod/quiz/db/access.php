@@ -175,6 +175,16 @@ $capabilities = [
         ]
     ],
 
+    // Disable/enable response replay.
+    'mod/quiz:setresponsereplay' => [
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => array(
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW
+        )
+    ],
+
     // Do not have the time limit imposed. Used for accessibility legislation compliance.
     'mod/quiz:ignoretimelimits' => [
         'captype' => 'read',

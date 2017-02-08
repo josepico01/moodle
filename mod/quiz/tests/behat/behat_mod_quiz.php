@@ -1067,4 +1067,75 @@ class behat_mod_quiz extends behat_question_base {
             ["//li[contains(@class,'qtype')]//span[@class='slotnumber' and contains(., %locator%)]/.."])
         ];
     }
+
+    /**
+     * Checks the answer of a question matches a value, does not support all question types.
+     *
+     * @Then /^the answer of "(?P<question_type>(?:[^"]|\\")*)" question "(?P<question_name>(?:[^"]|\\")*)" matches "(?P<answer>(?:[^"]|\\")*)"$/
+     * @param string $questiontype the type of question you are looking for.
+     * @param string $questionname
+     * @param string $answer what kind of text should be in the short answer
+     * @throws Exception
+     * @throws \Behat\Mink\Exception\ElementNotFoundException
+     * @throws coding_exception
+     */
+    public function answer_of_question_matches ($questiontype, $questionname, $answer) {
+        switch($questiontype) {
+            case "essay" :
+                $selectortype = 'xpath_element';
+                $element = '//textarea';
+                break;
+            case "shortanswer" :
+                $selectortype = 'text';
+                $element = 'answer';
+                break;
+            default:
+                throw new coding_exception("Question type: $questiontype not implemented");
+        }
+        $node = $this->get_node_in_container($selectortype, $element, 'question', $questionname);
+        $field = behat_field_manager::get_form_field($node, $this->getSession());
+        $field->matches($answer);
+    }
+
+    /**
+     * Sets the answer of a question, does not support all question types.
+     *
+     * @When /^I set the answer of "(?P<question_type>(?:[^"]|\\")*)" question "(?P<question_name>(?:[^"]|\\")*)" to "(?P<answer>(?:[^"]|\\")*)"$/
+     * @param string $questiontype the type of question you are looking for.
+     * @param string $questionname
+     * @param string $answer what text to enter into the short answer question
+     * @throws coding_exception
+     * @throws \Behat\Mink\Exception\ElementNotFoundException
+     */
+    public function i_set_the_answer_of_question ($questiontype, $questionname, $answer) {
+        switch($questiontype) {
+            case "essay" :
+                $selectortype = 'xpath_element';
+                $element = '//textarea';
+                break;
+            case "shortanswer" :
+                $selectortype = 'text';
+                $element = 'answer';
+                break;
+            default:
+                throw new coding_exception("Question type: $questiontype not implemented");
+        }
+        $node = $this->get_node_in_container($selectortype, $element, 'question', $questionname);
+        $field = behat_field_manager::get_form_field($node, $this->getSession());
+        $field->set_value($answer);
+    }
+
+    /**
+     * Checks the sequence check number of a question.
+     *
+     * @Then /^the sequence check of question "(?P<question_name>(?:[^"]|\\")*)" matches "(?P<sequence_number>\d+)"$/
+     * @param string $questionname
+     * @param int $sequencenumber the save step seqeunce number
+     * @throws \Behat\Mink\Exception\ElementNotFoundException
+     */
+    public function question_sequencecheck_matches ($questionname, $sequencenumber) {
+        $node = $this->get_node_in_container('xpath_element', '//input[contains(@name, \'sequencecheck\')]', 'question', $questionname);
+        $field = behat_field_manager::get_form_field($node, $this->getSession());
+        $field->matches($sequencenumber);
+    }
 }

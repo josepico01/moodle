@@ -1293,13 +1293,21 @@ class mod_quiz_external extends external_api {
             $_REQUEST[$element['name']] = $element['value'];
         }
         $timenow = time();
-        // Update the timemodifiedoffline field.
-        $attemptobj->set_offline_modified_time($timenow);
-        $attemptobj->process_auto_save($timenow);
-        $transaction->allow_commit();
-
         $result = [];
         $result['status'] = true;
+        try {
+            // Update the timemodifiedoffline field.
+            $attemptobj->set_offline_modified_time($timenow);
+            $attemptobj->process_auto_save($timenow);
+            $transaction->allow_commit();
+            $result['status'] = quiz_attempt::AUTOSAVE_SUCCESS_CODE;
+            $result['statusmessage'] = quiz_attempt::AUTOSAVE_SUCCESS;
+            $result['newsequences'] = $attemptobj->get_updated_sequence_checks();
+        } catch (question_out_of_sequence_exception $e) {
+            $result['status'] = quiz_attempt::AUTOSAVE_WRONG_SEQUENCE_CODE;
+            $result['statusmessage'] = quiz_attempt::AUTOSAVE_WRONG_SEQUENCE;
+        }
+
         $result['warnings'] = $warnings;
         return $result;
     }
@@ -1314,6 +1322,15 @@ class mod_quiz_external extends external_api {
         return new external_single_structure(
             [
                 'status' => new external_value(PARAM_BOOL, 'status: true if success'),
+                'statusmessage' => new external_value(PARAM_ALPHA, 'status message'),
+                'newsequences' => new external_multiple_structure(
+                    new external_single_structure (
+                        array(
+                            'name' => new external_value(PARAM_ALPHANUMEXT, 'Sequence control field name'),
+                            'value' => new external_value(PARAM_INT, 'New sequence number'),
+                        )
+                    )
+                ),
                 'warnings' => new external_warnings(),
             ]
         );

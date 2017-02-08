@@ -1749,6 +1749,15 @@ $functions = array(
         'type' => 'read',
         'ajax' => true,
     ),
+    'core_question_get_steps' => array(
+        'classname'     => 'core_question_external',
+        'methodname'    => 'get_steps',
+        'description'   => 'Get the steps in a question attempt',
+        'type'          => 'read',
+        'capabilities'  => 'moodle/question:getsteps',
+        'ajax' => true,
+        'services'      => array(MOODLE_OFFICIAL_MOBILE_SERVICE)
+    ),
     'core_rating_get_item_ratings' => array(
         'classname' => 'core_rating_external',
         'methodname' => 'get_item_ratings',

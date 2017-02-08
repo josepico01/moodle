@@ -217,6 +217,37 @@ Feature: Attempt a quiz
     And I should see "No more attempts are allowed"
 
   @javascript
+  Scenario: Attempt a quiz and trigger auto-save with conversion
+    Given the following "questions" exist:
+      | questioncategory | qtype       | name              | questiontext    |
+      | Test questions   | shortanswer | shortanswer-001   | First question  |
+      | Test questions   | shortanswer | shortanswer-002   | Second question |
+    And quiz "Quiz 1" contains the following questions:
+      | question        | page | maxmark |
+      | shortanswer-001 | 1    |         |
+      | shortanswer-002 | 1    | 3.0     |
+    And the following config values are set as admin:
+      | autosaveperiod             | 5  | quiz |
+      | autosaveconversioninterval | 15 | quiz |
+    When I log in as "student"
+    And I am on "Course 1" course homepage
+    And I follow "Quiz 1"
+    And I press "Attempt quiz now"
+    And I set the answer of "shortanswer" question "First question" to "field one answer one"
+    And I set the answer of "shortanswer" question "Second question" to "field two answer one"
+    And I wait "10" seconds
+    And I reload the page
+    Then the answer of "shortanswer" question "First question" matches "field one answer one"
+    And the answer of "shortanswer" question "Second question" matches "field two answer one"
+    And  the sequence check of question "First question" matches "1"
+    And  the sequence check of question "Second question" matches "1"
+    When I wait "10" seconds
+    And I set the answer of "shortanswer" question "Second question" to "field two answer two"
+    And I wait "10" seconds
+    Then the sequence check of question "First question" matches "1"
+    And  the sequence check of question "Second question" matches "2"
+
+  @javascript
   Scenario: Student still sees the same version after the question is edited.
     Given I am on the "Quiz 1" "mod_quiz > View" page logged in as "student"
     And I press "Attempt quiz"
