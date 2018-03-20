@@ -90,9 +90,11 @@ if (empty($attemptobj->get_quiz()->showblocks)) {
     $PAGE->blocks->show_only_fake_blocks();
 }
 
-$navbc = $attemptobj->get_navigation_panel($output, navigation_panel_attempt::class, -1);
-$regions = $PAGE->blocks->get_regions();
-$PAGE->blocks->add_fake_block($navbc, reset($regions));
+/* BEGIN EASSESS CORE HACK (EDAEASS-????? /*)
+//$navbc = $attemptobj->get_navigation_panel($output, navigation_panel_attempt::class, -1);
+//$regions = $PAGE->blocks->get_regions();
+//$PAGE->blocks->add_fake_block($navbc, reset($regions));
+/* END EASSESS CORE HACK (EDAEASS-????? /*)
 
 /* BEGIN EASSESS CORE HACK (EDAEASS-139) */
 if (has_capability('local/eassessment:securestudent', $attemptobj->get_quizobj()->get_context(), null, false)) {
@@ -105,7 +107,9 @@ $PAGE->set_title($attemptobj->summary_page_title());
 $PAGE->set_heading($attemptobj->get_course()->fullname);
 $PAGE->activityheader->disable();
 // Display the page.
-echo $output->summary_page($attemptobj, $displayoptions);
+echo $output->header();
+echo $output->render_summary_content($attemptobj, $displayoptions);
+echo $output->footer();
 
 // Log this page view.
 $attemptobj->fire_attempt_summary_viewed_event();
