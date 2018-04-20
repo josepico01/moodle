@@ -162,4 +162,10 @@ if ($attemptobj->is_last_page($page)) {
     $nextpage = $page + 1;
 }
 
+/* BEGIN EASSESS CORE HACK (EDAEASS-139) */
+if (has_capability('local/eassessment:securestudent', $attemptobj->get_quizobj()->get_context(), null, false)) {
+    $PAGE->set_pagelayout('secure');
+}
+/* END EASSESS CORE HACK */
+
 echo $output->attempt_page($attemptobj, $page, $accessmanager, $messages, $slots, $id, $nextpage);

@@ -266,6 +266,12 @@ if (!$viewobj->quizhasquestions) {
 $viewobj->showbacktocourse = ($viewobj->buttontext === '' &&
         course_get_format($course)->has_view_page());
 
+/* BEGIN EASSESS CORE HACK (EDAEASS-139) */
+if (has_capability('local/eassessment:securestudent', $context, null, false)) {
+    $PAGE->set_pagelayout('secure');
+}
+/* END EASSESS CORE HACK */
+
 echo $OUTPUT->header();
 
 if (!empty($gradinginfo->errors)) {
