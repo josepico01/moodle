@@ -188,15 +188,12 @@ M.mod_quiz.timer = {
 
         // If time has nearly expired, change the colour.
         if (secondsleft < 100) {
-            Y.one('#quiz-timer').removeClass('timeleft' + (secondsleft + 2))
-                    .removeClass('timeleft' + (secondsleft + 1))
-                    .addClass('timeleft' + secondsleft);
-
             // From now on, the timer should be visible and should not be hideable anymore.
             // We use the second (optional) parameter in order to leave the user preference
             // unchanged.
             M.mod_quiz.timer.setVisibility(true, false);
             Y.one('#toggle-timer').setAttribute('disabled', true);
+            Y.one('#quiz-timer').addClass('timeleftcountdown');
         }
 
         // Update the time display.

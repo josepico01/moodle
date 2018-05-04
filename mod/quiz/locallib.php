@@ -54,7 +54,7 @@ use qbank_previewquestion\question_preview_options;
  * @var int We show the countdown timer if there is less than this amount of time left before the
  * the quiz close date. (1 hour)
  */
-define('QUIZ_SHOW_TIME_BEFORE_DEADLINE', '3600');
+define('QUIZ_SHOW_TIME_BEFORE_DEADLINE', '18000'); // Monash eAssessment customisation, increase deadline to 5 hours.
 
 /**
  * @var int If there are fewer than this many seconds left when the student submits
