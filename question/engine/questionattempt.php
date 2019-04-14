@@ -443,11 +443,9 @@ class question_attempt {
      * @return int a number that summarises the current state of this question attempt.
      */
     public function get_sequence_check_count() {
-        $numrealsteps = $this->get_num_steps();
-        if ($this->has_autosaved_step()) {
-            $numrealsteps -= 1;
-        }
-        return $numrealsteps;
+        /* BEGIN EASSESS CORE HACK (EDAEASS-144) */
+        return $this->get_next_sequence() + 1;
+        /* END EASSESS CORE HACK */
     }
 
     /**
@@ -970,7 +968,9 @@ class question_attempt {
     protected function add_step(question_attempt_step $step) {
         $this->steps[] = $step;
         end($this->steps);
-        $this->observer->notify_step_added($step, $this, key($this->steps));
+        /* BEGIN EASSESS CORE HACK (EDAEASS-144) */
+        $this->observer->notify_step_added($step, $this, $this->get_next_sequence());
+        /* END EASSESS CORE HACK */
     }
 
     /**
@@ -982,7 +982,9 @@ class question_attempt {
         $this->steps[] = $step;
         $this->autosavedstep = $step;
         end($this->steps);
-        $this->observer->notify_step_added($step, $this, -key($this->steps));
+        /* BEGIN EASSESS CORE HACK (EDAEASS-144) */
+        $this->observer->notify_step_added($step, $this, -($this->get_next_sequence() + 1));
+        /* END EASSESS CORE HACK */
     }
 
     /**
@@ -1012,8 +1014,37 @@ class question_attempt {
             throw new coding_exception('Cannot convert autosaved step to real step, since other steps have been added.');
         }
 
-        $this->observer->notify_step_modified($this->autosavedstep, $this, key($this->steps));
+        /* BEGIN EASSESS CORE HACK (EDAEASS-144) */
+        $this->observer->notify_step_modified($this->autosavedstep, $this, $this->get_next_sequence() + 1);
+        /* END EASSESS CORE HACK */
         $this->autosavedstep = null;
+    }
+
+    /**
+     * Returns the next step sequence number for full saving a question attempt.
+     *
+     * EASSESS CORE HACK (EDAEASS-144). This method is not part of vanilla Moodle.
+     *
+     * @return int
+     * @throws coding_exception
+     */
+    protected function get_next_sequence() {
+        if (count($this->steps) === 0) {
+            return 0;
+        }
+        $uncommittedsteps = -1;
+        foreach ($this->get_reverse_step_iterator() as $step) {
+            $uncommittedsteps++;
+            if ($step->get_sequence_number() !== null &&
+                $step->get_save_type() !== question_attempt_step::SAVE_TYPE_AUTOSAVE) {
+                return $step->get_sequence_number() + $uncommittedsteps;
+            }
+            if ($step->get_save_type() === question_attempt_step::SAVE_TYPE_AUTOSAVE &&
+                $this->has_autosaved_step()) {
+                $uncommittedsteps--;
+            }
+        }
+        return $uncommittedsteps;
     }
 
     /**
@@ -1447,7 +1478,9 @@ class question_attempt {
      * TODO: maybe replace this with an event/observer model?
      */
     protected function trigger_sequence_check_update() {
-        $this->sequencecheck = count($this->steps);
+        /* BEGIN EASSESS CORE HACK (EDAEASS-144) */
+        $this->sequencecheck = $this->get_next_sequence();
+        /* END EASSESS CORE HACK */
     }
 
     /**

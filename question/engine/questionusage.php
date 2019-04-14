@@ -583,7 +583,7 @@ class question_usage_by_activity {
             if ($questionattempt->sequence_check_changed()) {
                 $newsequencechecks[] = (object) [
                     'name' => $questionattempt->get_control_field_name('sequencecheck'),
-                    'value' => $questionattempt->get_sequence_check()
+                    'value' => $questionattempt->get_sequence_check() + 1
                 ];
             }
         }
