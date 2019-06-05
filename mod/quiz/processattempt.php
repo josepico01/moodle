@@ -92,14 +92,72 @@ if (!$finishattempt && !$attemptobj->check_page_access($thispage)) {
             $attemptobj->attempt_url(null, $attemptobj->get_currentpage()));
 }
 
-// Process the attempt, getting the new status for the attempt.
-$status = $attemptobj->process_attempt($timenow, $finishattempt, $timeup, $thispage);
+/* BEGIN EASSESS CORE HACK (EDAEASS-747, EDAEASS-2642, EDAEASS-6697) */
+// Case for timeup, we display a modal loading page and process the attempt in the background.
+// The post data is submitted via the quiz/module.js countdown timeout.
+if ($timeup === 1) {
+    $data = [];
 
-if ($status == quiz_attempt::OVERDUE) {
-    redirect($attemptobj->summary_url());
-} else if ($status == quiz_attempt::IN_PROGRESS) {
-    redirect($nexturl);
+    // Convert the post data to the external function valid parameters.
+    foreach ($_POST as $key => $value) {
+        $data[] = [
+            'name' => $key,
+            'value' => $value,
+        ];
+    }
+
+    // The user is doing exam remotely only if they has remote sitting capability, or $CFG->isremote is manually set
+    // to true for manual testing / dev.
+    $cmid = $attemptobj->get_cmid();
+
+    // If exam has kami questions.
+    $haskami = false;
+    $slots = $attemptobj->get_slots();
+    foreach ($slots as $slot) {
+        if ($attemptobj->get_question_type_name($slot) == 'kami') {
+            $haskami = true;
+            break;
+        }
+    }
+
+    $isremote = $haskami &&
+        (has_capability('qtype/kami:remotesitting', context_module::instance($cmid)) || @$CFG->isremote);
+
+    $modalparams = [
+        'options' => [
+            'timeup' => 1,
+            'attempt' => $attemptobj->get_attemptid(),
+            'data' => $data,
+        ],
+        'title' => format_string($attemptobj->get_quiz_name()),
+        'cmid' => $cmid,
+        'message' => get_string('modal_submission_timeout', 'theme_monasheass'),
+        'isremote' => $isremote,
+        'qrcodeurl' => (new moodle_url('/question/type/kami/qrcode.php', ['attempt' => $attemptid]))->out(),
+        'submitattemptmaxdelay' => get_config('local_quizntjs', 'submitattempt_maxdelay'),
+        'submitattemptmaxretries' => get_config('local_quizntjs', 'submitattempt_maxretries'),
+        'submitattemptretrydelay' => get_config('local_quizntjs', 'submitattempt_retrydelay'),
+    ];
+
+    // Some default bootstrapping
+    $PAGE->requires->js_call_amd('theme_monasheass/modal_finish', 'init', $modalparams);
+    $PAGE->set_pagelayout('redirect');
+
+    // To load the first.js and call the AJAX process request which will then display the modal.
+    echo $OUTPUT->header();
+    echo $OUTPUT->footer();
+
 } else {
-    // Attempt abandoned or finished.
-    redirect($attemptobj->review_url());
+    // Process the attempt, getting the new status for the attempt.
+    $status = $attemptobj->process_attempt($timenow, $finishattempt, $timeup, $thispage);
+
+    if ($status == quiz_attempt::OVERDUE) {
+        redirect($attemptobj->summary_url());
+    } else if ($status == quiz_attempt::IN_PROGRESS) {
+        redirect($nexturl);
+    } else {
+        // Attempt abandoned or finished.
+        redirect($attemptobj->review_url());
+    }
 }
+/* END EASSESS CORE HACK */
