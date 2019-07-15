@@ -99,11 +99,18 @@ if ($accessmanager->is_preflight_check_required($attemptobj->get_attemptid())) {
 
 // Set up auto-save if required.
 $autosaveperiod = get_config('quiz', 'autosaveperiod');
+/* BEGIN EASSESS CORE HACK (EDAEASS-840) */
+$independentsavedelay = get_config('local_quizntjs', 'forcedautosaveperiod');
+$failuresbeforewarning = get_config('local_quizntjs', 'failurewarningtrigger');
+/* END EASSESS CORE HACK */
 if ($autosaveperiod) {
-    $PAGE->requires->string_for_js('strftimedatetimeshortaccurate', 'langconfig');
-    $PAGE->requires->string_for_js('lastautosave', 'quiz');
-    $PAGE->requires->yui_module('moodle-mod_quiz-autosave',
-            'M.mod_quiz.autosave.init', [$autosaveperiod]);
+    /* BEGIN EASSESS CORE HACK (EDAEASS-840) */
+    $endtime = $accessmanager->get_end_time($attemptobj->get_attempt());
+    $hastimer = $endtime !== false?true:false;
+    $PAGE->requires->js_call_amd('local_quizntjs/autosave',
+        'init', array($attemptid, $autosaveperiod, $independentsavedelay,
+            $failuresbeforewarning, $hastimer, $endtime));
+    /* END EASSESS CORE HACK (EDAEASS-840) */
 }
 
 // Log this page view.

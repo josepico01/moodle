@@ -1817,6 +1817,11 @@ class quiz_attempt {
         question_engine::save_questions_usage_by_activity($this->quba);
         $this->fire_attempt_autosaved_event();
 
+        /* BEGIN EASSESS CORE HACK (EDAEASS-840) */
+        $this->attempt->timemodified = $timestamp;
+        $DB->update_record('quiz_attempts', $this->attempt);
+        /* END EASSESS CORE HACK */
+
         $transaction->allow_commit();
     }
 
