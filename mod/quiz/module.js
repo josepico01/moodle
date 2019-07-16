@@ -176,13 +176,26 @@ M.mod_quiz.timer = {
             M.mod_quiz.timer.stop(null);
             Y.one('#quiz-time-left').setContent(M.util.get_string('timesup', 'quiz'));
             var input = Y.one('input[name=timeup]');
-            input.set('value', 1);
-            var form = input.ancestor('form');
-            if (form.one('input[name=finishattempt]')) {
-                form.one('input[name=finishattempt]').set('value', 0);
+            /* BEGIN EASSESS CORE HACK (EDAEASS-842) */
+            if (input !== null) {
+                input.set('value', 1);
+                var form = input.ancestor('form');
+                if (form.one('input[name=finishattempt]')) {
+                    form.one('input[name=finishattempt]').set('value', 0);
+                }
+                M.mod_quiz.timer.FormChangeChecker.markFormSubmitted(input.getDOMNode());
+                form.submit();
             }
-            M.mod_quiz.timer.FormChangeChecker.markFormSubmitted(input.getDOMNode());
-            form.submit();
+
+            // A hidden div exists with our theme/monasheass modal submission attached to it.
+            Y.use('node-event-simulate', function(Y) {
+                var hiddenautosubmit = Y.one('div.hidden.autosubmit');
+                if (hiddenautosubmit !== null) {
+                    hiddenautosubmit.simulate('click');
+                }
+            });
+            /* END EASSESS CORE HACK */
+
             return;
         }
 
