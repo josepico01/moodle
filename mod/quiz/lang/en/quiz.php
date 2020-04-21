@@ -1063,6 +1063,9 @@ $string['stateinprogress'] = 'In progress';
 $string['statenotloaded'] = 'The state for question {$a} has not been loaded from the database';
 $string['stateoverdue'] = 'Overdue';
 $string['stateoverduedetails'] = 'Must be submitted by {$a}';
+/* BEGIN EASSESS CORE HACK (EDAEASS-2122) */
+$string['stateuploadpending'] = 'Upload pending';
+/* END EASSESS CORE HACK */
 $string['status'] = 'Status';
 $string['stoponerror'] = 'Stop on error';
 $string['submission_confirmation'] = 'Submit all your answers and finish?';

@@ -62,6 +62,11 @@ class quiz_attempt {
     /** @var string to identify the abandoned state. */
     const ABANDONED   = 'abandoned';
 
+    /* BEGIN EASSESS CORE HACK (EDAEASS-2122) */
+    /** @var string to identify the upload pending state. */
+    const UPLOADPENDING   = 'uploadpending';
+    /* END EASSESS CORE HACK */
+
     /** @var string return code for a successful auto-save*/
     const AUTOSAVE_SUCCESS_CODE = '0';
     /** @var string return message for a successful auto-save */
@@ -567,7 +572,11 @@ class quiz_attempt {
      * @return bool
      */
     public function is_finished() {
-        return $this->attempt->state == self::FINISHED || $this->attempt->state == self::ABANDONED;
+        /* BEGIN EASSESS CORE HACK (EDAEASS-2122) */
+        return $this->attempt->state == self::FINISHED ||
+               $this->attempt->state == self::ABANDONED ||
+               $this->attempt->state == self::UPLOADPENDING;
+        /* END EASSESS CORE HACK */
     }
 
     /**

@@ -988,6 +988,10 @@ function quiz_attempt_state_name($state) {
             return get_string('statefinished', 'quiz');
         case quiz_attempt::ABANDONED:
             return get_string('stateabandoned', 'quiz');
+        /* BEGIN EASSESS CORE HACK (EDAEASS-2122) */
+        case quiz_attempt::UPLOADPENDING:
+            return get_string('stateuploadpending', 'quiz');
+        /* END EASSESS CORE HACK */
         default:
             throw new coding_exception('Unknown quiz attempt state.');
     }
