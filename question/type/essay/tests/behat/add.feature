@@ -1,4 +1,6 @@
-@qtype @qtype_essay
+# BEGIN EASSESS CORE HACK (EDAEASS-3019)
+@regression @qtype @qtype_essay
+# END EASSESS CORE HACK
 Feature: Test creating an Essay question
   As a teacher
   In order to test my students
@@ -43,8 +45,10 @@ Feature: Test creating an Essay question
       | id_responseformat      | editorfilepicker               |
       | id_responserequired    | 0                              |
       | id_responsefieldlines  | 15                             |
-      | id_attachments         | 2                              |
-      | id_attachmentsrequired | 2                              |
+      # BEGIN EASSESS CORE HACK (EDAEASS-3019)
+      | id_attachments         | 1                              |
+      | id_attachmentsrequired | 1                              |
+      # END EASSESS CORE HACK
       | id_maxbytes            | 10240                          |
     Then I should see "essay-003"
     # Checking that the next new question form displays user preferences settings.
@@ -55,6 +59,8 @@ Feature: Test creating an Essay question
       | id_responseformat      | editorfilepicker |
       | id_responserequired    | 0                |
       | id_responsefieldlines  | 15               |
-      | id_attachments         | 2                |
-      | id_attachmentsrequired | 2                |
+      # BEGIN EASSESS CORE HACK (EDAEASS-3019)
+      | id_attachments         | 1                |
+      | id_attachmentsrequired | 1                |
+      # END EASSESS CORE HACK
       | id_maxbytes            | 10240            |

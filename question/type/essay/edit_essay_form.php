@@ -90,7 +90,13 @@ class qtype_essay_edit_form extends question_edit_form {
         $mform->addHelpButton('attachmentsrequired', 'attachmentsrequired', 'qtype_essay');
         $mform->hideIf('attachmentsrequired', 'attachments', 'eq', 0);
 
-        $mform->addElement('filetypes', 'filetypeslist', get_string('acceptedfiletypes', 'qtype_essay'));
+        /* BEGIN EASSESS CORE HACK (EDAEASS-3019) */
+        // Get the restricted list of file types from config for essay questions.
+        $restrictlist = explode(",", get_config('local_eassessment', 'essay_filetypes'));
+        $mform->addElement('filetypes', 'filetypeslist',
+            get_string('acceptedfiletypes', 'qtype_essay'),
+            ['onlytypes' => $restrictlist, 'allowunknown' => false]);
+        /* END EASSESS CORE HACK */
         $mform->addHelpButton('filetypeslist', 'acceptedfiletypes', 'qtype_essay');
         $mform->hideIf('filetypeslist', 'attachments', 'eq', 0);
 
@@ -201,6 +207,12 @@ class qtype_essay_edit_form extends question_edit_form {
                 }
             }
         }
+        /* BEGIN EASSESS CORE HACK (EDAEASS-3019) */
+        // Don't allow file types to be left blank if attachments are allowed
+        if (empty($fromform['filetypeslist']) && $fromform['attachments'] != 0) {
+            $errors['filetypeslist']  = get_string('mustrequirefiletype', 'qtype_essay');;
+        }
+        /* END EASSESS CORE HACK */
         return $errors;
     }
 

@@ -90,6 +90,9 @@ final class edit_form_test extends \advanced_testcase {
             'responserequired' => '1',
             'attachments' => $allowed,
             'attachmentsrequired' => $required,
+            /* BEGIN EASSESS CORE HACK (EDAEASS-3019) */
+            'filetypeslist' => '*'
+            /* END EASSESS CORE HACK */
         ];
         $errors = $form->validation($submitteddata, []);
         $this->assertArrayNotHasKey('attachments', $errors);

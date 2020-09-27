@@ -168,9 +168,11 @@ class qtype_essay extends question_type {
         return array(
             0 => get_string('no'),
             1 => '1',
-            2 => '2',
-            3 => '3',
-            -1 => get_string('unlimited'),
+            /* BEGIN EASSESS CORE HACK (EDAEASS-3019) */
+            //2 => '2',
+            //3 => '3',
+            //-1 => get_string('unlimited'),
+            /* END EASSESS CORE HACK */
         );
     }
 
@@ -181,8 +183,10 @@ class qtype_essay extends question_type {
         return array(
             0 => get_string('attachmentsoptional', 'qtype_essay'),
             1 => '1',
-            2 => '2',
-            3 => '3'
+            /* BEGIN EASSESS CORE HACK (EDAEASS-3019) */
+            //2 => '2',
+            //3 => '3'
+            /* END EASSESS CORE HACK */
         );
     }
 
