@@ -1873,12 +1873,31 @@ class quiz_attempt {
 
         question_engine::save_questions_usage_by_activity($this->quba);
 
+        /* BEGIN EASSESS CORE HACK (EDAEASS-4096) */
+        // For kami questions, we cannot set the state to finished, as
+        // the user still needs to upload their answer sheets. So we
+        // check if the attempt contains any kami questions, and if
+        // so, keep the attempt in the upload pending state (see the
+        // $this->attempt->state hack further below) so that the user
+        // can upload their answer sheets later.
+        $haskami = false;
+        $slots = $this->get_slots();
+        foreach ($slots as $slot) {
+            if ($this->get_question_type_name($slot) == 'kami') {
+                $haskami = true;
+                break;
+            }
+        }
+        /* END EASSESS CORE HACK */
+
         $originalattempt = clone $this->attempt;
 
         $this->attempt->timemodified = $timestamp;
         $this->attempt->timefinish = $timefinish ?? $timestamp;
         $this->attempt->sumgrades = $this->quba->get_total_mark();
-        $this->attempt->state = self::FINISHED;
+        /* BEGIN EASSESS CORE HACK (EDAEASS-4096) */
+        $this->attempt->state = $haskami ? self::UPLOADPENDING : self::FINISHED;
+        /* END EASSESS CORE HACK */
         $this->attempt->timecheckstate = null;
         $this->attempt->gradednotificationsenttime = null;
 
