@@ -541,6 +541,15 @@ class mod_quiz_mod_form extends moodleform_mod {
 
         $quizconfig = get_config('quiz');
 
+        /* BEGIN EASSESS CORE HACK (EDAEASS-3171) */
+        // Hide the quiz name field error to handle it in custom control.
+        if (class_exists('\local_eassessment\modedit\quiz\ui')) {
+            if (!empty($errors['name'])) {
+                 $errors['name'] = '';
+            }
+        }
+        /* END EASSESS CORE HACK */
+
         // Check open and close times are consistent.
         if ($data['timeopen'] != 0 && $data['timeclose'] != 0 &&
                 $data['timeclose'] < $data['timeopen']) {
