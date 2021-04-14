@@ -15,16 +15,22 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Plugin version info
+ * Capability definitions for the tool_task.
  *
- * @package    tool_task
- * @copyright  2014 Damyon Wiese
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * EASSES CORE HACK (EDAEASS-6459). These capabilities are not part of vanilla Moodle.
+ *
+ * @package     tool_task
+ * @author      Rujul Trivedi <rujul.trivedi@monash.edu>
+ * @copyright   2021 Monash University (http://www.monash.edu)
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+defined('MOODLE_INTERNAL') || die;
 
-defined('MOODLE_INTERNAL') || die();
-
-$plugin->version   = 2024100700.01; // The current plugin version (Date: YYYYMMDDXX).
-$plugin->requires  = 2024100100; // Requires this Moodle version.
-$plugin->component = 'tool_task'; // Full name of the plugin (used for diagnostics)
-
+$capabilities = array(
+    'tool/task:viewrestrictedscheduledtasks' => array(
+        'riskbitmask' => RISK_CONFIG,
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_SYSTEM,
+        'archetypes' => [],
+    ),
+);

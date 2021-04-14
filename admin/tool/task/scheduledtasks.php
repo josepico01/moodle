@@ -59,7 +59,10 @@ $renderer = $PAGE->get_renderer('tool_task');
 
 if ($mform && ($mform->is_cancelled() || !empty($CFG->preventscheduledtaskchanges) || $task->is_overridden())) {
     redirect($nexturl);
-} else if ($action == 'edit' && empty($CFG->preventscheduledtaskchanges)) {
+  /* BEGIN EASSESS CORE HACK (EDAEAS-6459) */
+  } else if ($action == 'edit' && empty($CFG->preventscheduledtaskchanges)
+      && has_capability('moodle/site:config', $PAGE->context)) {
+  /* END EASSESS CORE HACK */
 
     if ($data = $mform->get_data()) {
         if ($data->resettodefaults) {
@@ -102,7 +105,15 @@ if ($mform && ($mform->is_cancelled() || !empty($CFG->preventscheduledtaskchange
     if (!get_config('core', 'cron_enabled')) {
         echo $renderer->cron_disabled();
     }
-    $tasks = core\task\manager::get_all_scheduled_tasks();
+    /* BEGIN EASSESS CORE HACK (EDAEAS-6459) */
+    if (has_capability('moodle/site:config', $PAGE->context)) {
+        $tasks = core\task\manager::get_all_scheduled_tasks();
+    } else if (has_capability('tool/task:viewrestrictedscheduledtasks', $PAGE->context)) {
+        $tasks = core\task\manager::get_restricted_scheduled_tasks();
+    } else {
+        $tasks = [];
+    }
+    /* END EASSESS CORE HACK */
     echo $renderer->scheduled_tasks_table($tasks, $lastchanged);
     echo $OUTPUT->footer();
 }

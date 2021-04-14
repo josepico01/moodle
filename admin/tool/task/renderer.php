@@ -322,7 +322,9 @@ class tool_task_renderer extends plugin_renderer_base {
      * @return string HTML to output.
      */
     public function scheduled_tasks_table($tasks, $lastchanged = '') {
-        global $CFG;
+        /* BEGIN EASSESS CORE HACK (EDAEAS-6459) */
+        global $CFG, $PAGE;
+        /* END EASSESS CORE HACK */
 
         $showloglink = \core\task\logmanager::has_log_report();
 
@@ -331,7 +333,9 @@ class tool_task_renderer extends plugin_renderer_base {
         $table->head = [
             get_string('name'),
             get_string('component', 'tool_task'),
-            get_string('edit'),
+            /* BEGIN EASSESS CORE HACK (EDAEAS-6459) */
+            has_capability('moodle/site:config', $PAGE->context) ? get_string('edit') : '',
+            /* END EASSESS CORE HACK */
             get_string('logs'),
             get_string('lastruntime', 'tool_task'),
             get_string('nextruntime', 'tool_task'),
@@ -414,7 +418,9 @@ class tool_task_renderer extends plugin_renderer_base {
             $row = new html_table_row([
                         $namecell,
                         new html_table_cell($this->component_name($task->get_component())),
-                        new html_table_cell($editlink),
+                        /* BEGIN EASSESS CORE HACK (EDAEAS-6459) */
+                        has_capability('moodle/site:config', $PAGE->context) ? new html_table_cell($editlink) : '',
+                        /* END EASSESS CORE HACK */
                         new html_table_cell($loglink),
                         new html_table_cell($this->last_run_time($task) . $runnow),
                         new html_table_cell($this->next_run_time($task)),

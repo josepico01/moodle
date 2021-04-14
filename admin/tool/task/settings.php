@@ -24,13 +24,19 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-if ($hassiteconfig) {
+/* BEGIN EASSESS CORE HACK (EDAEAS-6459) */
+$systemcontext = context_system::instance();
+if ($hassiteconfig or has_capability('tool/task:viewrestrictedscheduledtasks', $systemcontext)) {
+/* END EASSESS CORE HACK */
     $ADMIN->add(
         'taskconfig',
         new admin_externalpage(
             'scheduledtasks',
             new lang_string('scheduledtasks', 'tool_task'),
-            "$CFG->wwwroot/$CFG->admin/tool/task/scheduledtasks.php"
+            /* BEGIN EASSESS CORE HACK (EDAEAS-6459) */
+            "$CFG->wwwroot/$CFG->admin/tool/task/scheduledtasks.php",
+            'tool/task:viewrestrictedscheduledtasks'
+            /* END EASSESS CORE HACK */
         )
     );
 
@@ -51,4 +57,19 @@ if ($hassiteconfig) {
             "$CFG->wwwroot/$CFG->admin/tool/task/runningtasks.php"
         )
     );
+
+    /* BEGIN EASSESS CORE HACK (EDAEAS-6459) */
+    $settings = new admin_settingpage('restrictedscheduledtaskscomponentsconfiguration',
+        get_string('restricted_scheduled_tasks_components_configuration', 'tool_task'));
+    $ADMIN->add('taskconfig', $settings);
+    if (!during_initial_install()) {
+        $settings->add(new admin_setting_configtextarea('tool_task/restrictedscheduledtasks',
+            new lang_string('allowed_restricted_scheduled_tasks_components_settings', 'tool_task'),
+            new lang_string('allowed_restricted_scheduled_tasks_components_settings_desc', 'tool_task'),
+            new lang_string('allowed_restricted_scheduled_tasks_components_settings_default', 'tool_task'),
+            PARAM_RAW,
+            20,
+            5));
+    }
+    /* END EASSESS CORE HACK */
 }

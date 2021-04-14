@@ -25,7 +25,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-if ($hassiteconfig) {
+/* BEGIN EASSESS CORE HACK (EDAEAS-6459) */
+$systemcontext = context_system::instance();
+if ($hassiteconfig or has_capability('tool/task:viewrestrictedscheduledtasks', $systemcontext)) {
+/* END EASSESS CORE HACK */
     // System paths.
     $temp = new admin_settingpage('systempaths', new lang_string('systempaths', 'admin'));
     $temp->add(new admin_setting_configexecutable('pathtophp', new lang_string('pathtophp', 'admin'),
@@ -462,7 +465,10 @@ if ($hassiteconfig) {
         $ADMIN->add('taskconfig', new admin_externalpage(
             'tasklogs',
             new lang_string('tasklogs', 'admin'),
-            "{$CFG->wwwroot}/{$CFG->admin}/tasklogs.php"
+            /* BEGIN EASSESS CORE HACK (EDAEAS-6459) */
+            "{$CFG->wwwroot}/{$CFG->admin}/tasklogs.php",
+            'tool/task:viewrestrictedscheduledtasks'
+            /* END EASSESS CORE HACK */
         ));
     }
 

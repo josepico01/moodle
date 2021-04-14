@@ -1768,6 +1768,36 @@ class manager {
     }
 
     /**
+     * This function will return a list of restricted scheduled tasks based on configured components.
+     *
+     * EASSESS CORE HACK (EDAEAS-6459). This method is not part of vanilla Moodle.
+     *
+     * @return \core\task\scheduled_task[]
+     */
+    public static function get_restricted_scheduled_tasks() {
+        global $DB;
+
+        $configlist = get_config('tool_task', 'restrictedscheduledtasks');
+        $configlistarray = array_filter(explode("\r\n", $configlist),
+            function($array) {
+                // Remove any zero length entries or only whitespace.
+                return (strlen(preg_replace('/\s+/', '', $array)) > 0);
+            });
+        list($sqlids, $sqlparams) = $DB->get_in_or_equal($configlistarray);
+        $records = $DB->get_records_select("task_scheduled", "component " . $sqlids . " ", $sqlparams);
+        $tasks = array();
+        foreach ($records as $record) {
+            $task = self::scheduled_task_from_record($record);
+            // Safety check in case the task in the DB does not match a real class (maybe something was uninstalled).
+            if ($task) {
+                $tasks[] = $task;
+            }
+        }
+
+        return $tasks;
+    }
+
+    /**
      * Clean up failed adhoc tasks.
      */
     public static function clean_failed_adhoc_tasks(): void {

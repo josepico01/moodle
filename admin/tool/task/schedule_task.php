@@ -32,8 +32,11 @@ require('../../../config.php');
 $taskname = required_param('task', PARAM_RAW_TRIMMED);
 
 // Basic security checks.
-require_admin();
 $context = context_system::instance();
+/* BEGIN EASSESS CORE HACK (EDAEAS-6459) */
+// NOTE: This hack also removed a call to require_admin just above $context.
+require_capability('tool/task:viewrestrictedscheduledtasks', $context);
+/* END EASSESS CORE HACK */
 
 // Check input parameter against all existing tasks (this ensures it isn't possible to
 // create some kind of security problem by specifying a class that isn't a task or whatever).

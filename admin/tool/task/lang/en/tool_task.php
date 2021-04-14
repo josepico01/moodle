@@ -140,3 +140,15 @@ $string['taskschedulemonth_help'] = 'Month field for task schedule. The field us
 * <strong>1,5</strong> Every January and May';
 $string['privacy:metadata'] = 'The Scheduled task configuration plugin does not store any personal data.';
 $string['viewlogs'] = 'View logs for {$a}';
+
+/* BEGIN EASSESS CORE HACK (EDAEAS-6459) */
+// Capabilities
+$string['task:viewrestrictedscheduledtasks'] = 'View restricted scheduled tasks';
+
+// Settings
+$string['restricted_scheduled_tasks_components_configuration'] = 'Restricted scheduled tasks components configuration';
+$string['allowed_restricted_scheduled_tasks_components_settings'] = "Allowed Scheduled Tasks Components";
+$string['allowed_restricted_scheduled_tasks_components_settings_desc'] = "List of allowed scheduled tasks components. <br />
+        Add a line break after each component.";
+$string['allowed_restricted_scheduled_tasks_components_settings_default'] = "local_evigilation";
+/* END EASSESS CORE HACK */

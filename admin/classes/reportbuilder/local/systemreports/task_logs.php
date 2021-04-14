@@ -72,7 +72,9 @@ class task_logs extends system_report {
      * @return bool
      */
     protected function can_view(): bool {
-        return has_capability('moodle/site:config', context_system::instance());
+        /* BEGIN EASSESS CORE HACK (EDAEAS-6459) */
+        return has_any_capability(['moodle/site:config', 'tool/task:viewrestrictedscheduledtasks'], context_system::instance());
+        /* END EASSESS CORE HACK */
     }
 
     /**
