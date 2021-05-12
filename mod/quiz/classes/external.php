@@ -1633,7 +1633,9 @@ class mod_quiz_external extends external_api {
         list($attemptobj, $messages) = self::validate_attempt($params);
 
         // Log action.
-        $attemptobj->fire_attempt_viewed_event();
+        /* BEGIN EASSESS CORE HACK (EDAEASS-6802) */
+        $attemptobj->fire_attempt_viewed_event($page);
+        /* END EASSESS CORE HACK */
 
         // Update attempt page, throwing an exception if $page is not valid.
         if (!$attemptobj->set_currentpage($params['page'])) {

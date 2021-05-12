@@ -67,10 +67,16 @@ class attempt_viewed extends \core\event\base {
      * @return string
      */
     public function get_description() {
-        $page = isset($this->other['page']) ? $this->other['page'] + 1 : '';
-        return "The user with id '$this->userid' has viewed page '$page' of the attempt with id " .
-            "'$this->objectid' belonging to the user with id '$this->relateduserid' for the quiz " .
-            "with course module id '$this->contextinstanceid'.";
+        /* BEGIN EASSESS CORE HACK (EDAEASS-6802) */
+        $pagedescription = "";
+        if (isset($this->other['currentpage'])) {
+            $currentpage = $this->other['currentpage'] + 1;
+            $pagedescription = "The user is on page no. '$currentpage'.";
+        }
+
+         return "The user with id '$this->userid' has viewed the attempt with id '$this->objectid' belonging to the user " .
+             "with id '$this->relateduserid' for the quiz with course module id '$this->contextinstanceid'. $pagedescription";
+         /* END EASSESS CORE HACK */
     }
 
     /**
@@ -79,10 +85,14 @@ class attempt_viewed extends \core\event\base {
      * @return \moodle_url
      */
     public function get_url() {
-        return new \moodle_url('/mod/quiz/review.php', [
-            'attempt' => $this->objectid,
-            'page' => isset($this->other['page']) ? $this->other['page'] : 0
-        ]);
+        /* BEGIN EASSESS CORE HACK (EDAEASS-6802) */
+        $params = array('attempt' => $this->objectid);
+        if (isset($this->other['currentpage']) && $this->other['currentpage'] >= 1) {
+            $params['page'] = $this->other['currentpage'];
+        }
+
+        return new \moodle_url('/mod/quiz/review.php', $params);
+        /* END EASSESS CORE HACK */
     }
 
     /**

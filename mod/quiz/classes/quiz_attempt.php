@@ -2298,9 +2298,13 @@ class quiz_attempt {
     /**
      * Trigger the attempt_viewed event.
      *
+     * EASSESS CORE HACK (EDAEASS-6802). This method has been modified from vanilla Moodle.
+     * The $paga parameter has been added, and the 'other' event data has been modified.
+     *
+     * @param int $page Page number.
      * @since Moodle 3.1
      */
-    public function fire_attempt_viewed_event() {
+    public function fire_attempt_viewed_event($page = 0) {
         $params = [
             'objectid' => $this->get_attemptid(),
             'relateduserid' => $this->get_userid(),
@@ -2308,6 +2312,7 @@ class quiz_attempt {
             'context' => $this->get_context(),
             'other' => [
                 'quizid' => $this->get_quizid(),
+                'currentpage' => $page,
                 'page' => $this->get_currentpage()
             ]
         ];

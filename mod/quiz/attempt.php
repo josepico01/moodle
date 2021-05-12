@@ -114,7 +114,9 @@ if ($autosaveperiod) {
 }
 
 // Log this page view.
-$attemptobj->fire_attempt_viewed_event();
+/* BEGIN EASSESS CORE HACK (EDAEASS-6802) */
+$attemptobj->fire_attempt_viewed_event($page);
+/* END EASSESS CORE HACK */
 
 // Get the list of questions needed by this page.
 $slots = $attemptobj->get_slots($page);
