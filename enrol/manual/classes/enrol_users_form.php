@@ -111,6 +111,9 @@ class enrol_manual_enrol_users_form extends moodleform {
                     cohort_get_available_cohorts($context, COHORT_ALL, 0, 1, ''));
             }
             if (!empty($availablecohorts)) {
+                /* BEGIN EASSESS CORE HACK (EDAEASS-7165) */
+                \local_monashwidgets\form\element\cohort_autocomplete::register();
+                /* END EASSESS CORE HACK */
                 $options = ['contextid' => $context->id, 'multiple' => true];
                 $mform->addElement('cohort', 'cohortlist', get_string('selectcohorts', 'enrol_manual'), $options);
             }

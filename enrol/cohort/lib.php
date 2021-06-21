@@ -436,6 +436,9 @@ class enrol_cohort_plugin extends enrol_plugin {
         $options = $this->get_status_options();
         $mform->addElement('select', 'status', get_string('status', 'enrol_cohort'), $options);
 
+        /* BEGIN EASSESS CORE HACK (EDAEASS-7165) */
+        \local_monashwidgets\form\element\cohort_autocomplete::register();
+        /* END EASSESS CORE HACK */
         $options = ['contextid' => $coursecontext->id, 'multiple' => true];
         $mform->addElement('cohort', 'customint1', get_string('cohort', 'cohort'), $options);
 

@@ -1,8 +1,13 @@
 @core @core_cohort @enrol_cohort
 Feature: Access visible and hidden cohorts
   In order to enrol users from cohorts
-  As an manager or teacher
+  # BEGIN EASSESS CORE HACK (EDAEASS-7165)
+  As an manager with local/eassessment:viewemptycohorts capability
+  As teacher without local/eassessment:viewemptycohorts capability
+  # END EASSESS CORE HACK
   I need to be able to view the list of cohorts defined above the course
+
+
 
   Background:
     Given the following "categories" exist:
@@ -33,6 +38,11 @@ Feature: Access visible and hidden cohorts
       | student | CV2   |
       | student | CH0   |
       | student | CH1   |
+    # BEGIN EASSESS CORE HACK (EDAEASS-7165)
+    And the following "role capability" exists:
+      | role                 | manager |
+      | local/eassessment:viewemptycohorts | allow |
+    # END EASSESSMENT CORE HACK
     And the following "role assigns" exist:
       | user  | role    | contextlevel | reference |
       | user1 | manager | System       |           |
@@ -45,7 +55,9 @@ Feature: Access visible and hidden cohorts
       | teacher | C1     | editingteacher |
 
   @javascript @skip_chrome_zerosize
-  Scenario: Teacher can see visible cohorts defined in the above contexts
+  # BEGIN EASSESS CORE HACK (EDAEASS-7165)
+  Scenario: Teacher can see visible non-empty cohorts defined in the above contexts
+  # END EASSESS CORE HACK
     When I log in as "teacher"
     And I am on the "Course 1" "enrolment methods" page
     And I select "Cohort sync" from the "Add method" singleselect
@@ -55,8 +67,10 @@ Feature: Access visible and hidden cohorts
     And "Cohort hidden in category 1" "autocomplete_suggestions" should not exist
     And "System hidden cohort" "autocomplete_suggestions" should not exist
     And "Cohort in category 2" "autocomplete_suggestions" should not exist
-    And "Cohort empty in category 1" "autocomplete_suggestions" should exist
-    And "System empty cohort" "autocomplete_suggestions" should exist
+    # BEGIN EASSESS CORE HACK (EDAEASS-7165)
+    And "Cohort empty in category 1" "autocomplete_suggestions" should not exist
+    And "System empty cohort" "autocomplete_suggestions" should not exist
+    # END EASSESS CORE HACK
     And I set the field "Cohort" to "System cohort"
     And I press "Add method"
     And I am on the "Course 1" "enrolled users" page
