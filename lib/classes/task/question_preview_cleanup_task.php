@@ -52,22 +52,17 @@ class question_preview_cleanup_task extends scheduled_task {
         $lastmodifiedcutoff = time() - DAYSECS;
 
         mtrace("\n  Cleaning up old question previews...", '');
-        $oldpreviews = new \qubaid_join('{question_usages} quba', 'quba.id',
-            'quba.component = :qubacomponent
-                    AND NOT EXISTS (
-                        SELECT 1
-                          FROM {question_attempts}      subq_qa
-                          JOIN {question_attempt_steps} subq_qas ON subq_qas.questionattemptid = subq_qa.id
-                          JOIN {question_usages}        subq_qu  ON subq_qu.id = subq_qa.questionusageid
-                         WHERE subq_qa.questionusageid = quba.id
-                           AND subq_qu.component = :qubacomponent2
-                           AND (subq_qa.timemodified > :qamodifiedcutoff
-                                    OR subq_qas.timecreated > :stepcreatedcutoff)
-                    )
-            ',
-            ['qubacomponent' => 'core_question_preview', 'qubacomponent2' => 'core_question_preview',
-                'qamodifiedcutoff' => $lastmodifiedcutoff, 'stepcreatedcutoff' => $lastmodifiedcutoff]);
-
+        /* BEGIN EASSESS CORE HACK (EDAEASS-10056) */
+        $oldpreviews = new \qubaid_join('{question_usages} quba
+                        LEFT JOIN {question_attempts} subq_qa ON subq_qa.questionusageid = quba.id
+                                  AND subq_qa.timemodified > :qamodifiedcutoff
+                        LEFT JOIN {question_attempt_steps} subq_qas ON subq_qas.questionattemptid = subq_qa.id
+                                  AND subq_qas.timecreated > :stepcreatedcutoff',
+            'quba.id',
+            'quba.component = :qubacomponent AND subq_qa.id IS NULL',
+            ['qubacomponent' => 'core_question_preview', 'qamodifiedcutoff' => $lastmodifiedcutoff,
+                'stepcreatedcutoff' => $lastmodifiedcutoff]);
+        /* END EASSESS CORE HACK */
         \question_engine::delete_questions_usage_by_activities($oldpreviews);
         mtrace('done.');
     }

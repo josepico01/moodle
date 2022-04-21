@@ -1584,6 +1584,11 @@
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
         <KEY NAME="contextid" TYPE="foreign" FIELDS="contextid" REFTABLE="context" REFFIELDS="id"/>
       </KEYS>
+      <!-- BEGIN EASSESS CORE HACK (EDAEASS-10056) -->
+      <INDEXES>
+        <INDEX NAME="component" UNIQUE="false" FIELDS="component" COMMENT="Required to execute a cleanup task with INDEX only scan."/>
+      </INDEXES>
+      <!-- END EASSESS CORE HACK -->
     </TABLE>
     <TABLE NAME="question_attempts" COMMENT="Each row here corresponds to an attempt at one question, as part of a question_usage. A question_attempt will have some question_attempt_steps">
       <FIELDS>
@@ -1610,6 +1615,9 @@
       <INDEXES>
         <INDEX NAME="questionusageid-slot" UNIQUE="true" FIELDS="questionusageid, slot"/>
         <INDEX NAME="behaviour" UNIQUE="false" FIELDS="behaviour" COMMENT="Required because we need to be able to determine efficiently which behaviours are in use."/>
+        <!-- BEGIN EASSESS CORE HACK (EDAEASS-10056) -->
+        <INDEX NAME="timemodified" UNIQUE="false" FIELDS="timemodified" COMMENT="Required to execute a cleanup task with INDEX only scan."/>
+        <!-- END EASSESS CORE HACK -->
       </INDEXES>
     </TABLE>
     <TABLE NAME="question_attempt_steps" COMMENT="Stores one step in in a question attempt. As well as the data here, the step will have some data in the question_attempt_step_data table.">
@@ -1630,6 +1638,9 @@
       </KEYS>
       <INDEXES>
         <INDEX NAME="questionattemptid-sequencenumber-savetype" UNIQUE="true" FIELDS="questionattemptid, sequencenumber, savetype"/>
+        <!-- BEGIN EASSESS CORE HACK (EDAEASS-10056) -->
+        <INDEX NAME="timecreated" UNIQUE="false" FIELDS="timecreated" COMMENT="Required to execute a cleanup task with INDEX only scan."/>
+        <!-- END EASSESS CORE HACK -->
       </INDEXES>
     </TABLE>
     <TABLE NAME="question_attempt_step_data" COMMENT="Each question_attempt_step has an associative array of the data that was submitted by the user in the POST request. It can also contain extra data from the question type or behaviour to avoid re-computation. The convention is that names belonging to the behaviour start with -, and cached values added to the submitted data start with _, or _-">
