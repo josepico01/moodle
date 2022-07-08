@@ -1800,6 +1800,18 @@ function quiz_question_pluginfile($course, $context, $component,
     $attemptobj = quiz_attempt::create_from_usage_id($qubaid);
     require_login($attemptobj->get_course(), false, $attemptobj->get_cm());
 
+    /* BEGIN EASSESS CORE HACK (EDAEASS-11163) */
+    if (has_capability('local/accreditationpage:view', $context)) {
+        $fs = get_file_storage();
+        $relativepath = implode('/', $args);
+        $fullpath = "/$context->id/$component/$filearea/$relativepath";
+        if (!$file = $fs->get_file_by_hash(sha1($fullpath)) or $file->is_directory()) {
+            send_file_not_found();
+        }
+        send_stored_file($file, 0, 0, $forcedownload, $options);
+    }
+    /* END EASSESS CORE HACK */
+
     if ($attemptobj->is_own_attempt() && !$attemptobj->is_finished()) {
         // In the middle of an attempt.
         if (!$attemptobj->is_preview_user()) {
