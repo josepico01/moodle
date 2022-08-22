@@ -1,4 +1,4 @@
-@qtype @qtype_essay
+@regression @qtype @qtype_essay
 Feature: In a essay question, limit submittable file types
   In order to constrain student submissions for marking
   As a teacher
@@ -28,6 +28,16 @@ Feature: In a essay question, limit submittable file types
     And quiz "Quiz 1" contains the following questions:
       | question | page |
       | TF1      | 1    |
+    And the following "blocks" exist:
+      | blockname     | contextlevel | reference | pagetypepattern | defaultregion |
+      | private_files | System       | 1         | my-index        | side-post     |
+    Given I log in as "admin"
+    When I navigate to "Plugins > Local plugins > eAssessment Customisations" in site administration
+    And I set the following fields to these values:
+      | id_s_local_eassessment_essay_filetypes | * |
+    And I press "Save changes"
+    Then I log out
+    Given I am on the "Quiz 1" "mod_quiz > edit" page logged in as teacher
     And I am on the "Quiz 1" "mod_quiz > edit" page logged in as teacher
     And I click on "Edit question TF1" "link"
     And I set the field "Allow attachments" to "1"

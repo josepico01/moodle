@@ -1,4 +1,4 @@
-@editor @editor_atto @atto
+@editor @editor_atto @atto @regression @direction @atto_tests
 Feature: Add text direction and alignment
   In order to generate a content that can be displayed in the proper direction to everyone
   As a user

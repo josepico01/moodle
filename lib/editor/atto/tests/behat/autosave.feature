@@ -1,4 +1,4 @@
-@editor @editor_atto @atto
+@editor @editor_atto @atto @_file_upload @regression @autosave @atto_tests
 Feature: Atto Autosave
   To reduce frustration, atto should save drafts of my work.
 

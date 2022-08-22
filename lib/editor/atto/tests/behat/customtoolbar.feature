@@ -1,4 +1,4 @@
-@editor @editor_atto @atto
+@editor @editor_atto @atto @regression @custom_toolbar @atto_tests
 Feature: Atto editor with customised toolbar
   In order to develop plugins that use Atto for specialised purposes
   As a developer

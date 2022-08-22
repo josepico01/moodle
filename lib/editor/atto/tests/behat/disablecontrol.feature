@@ -1,4 +1,4 @@
-@editor @editor_atto @atto @editor_moodleform
+@editor @editor_atto @atto @editor_moodleform @regression @disable-control @atto_tests
 Feature: Atto with enable/disable function.
   In order to test enable/disable function
   I create a sample page to test this feature.
