@@ -227,9 +227,22 @@ abstract class question_engine {
                     'an archetypal one.');
         }
 
-        self::load_behaviour_class($preferredbehaviour);
-        $class = 'qbehaviour_' . $preferredbehaviour;
-        return new $class($qa, $preferredbehaviour);
+        /* BEGIN EASSESS CORE HACK (EDAEASS-12795) */
+        $factory = self::get_behaviour_factory($preferredbehaviour);
+        return $factory->make_behaviour($qa);
+        /* END EASSESS CORE HACK */
+    }
+
+    /**
+     * Get behaviour factory from preferred behaviour.
+     *
+     * EASSESS CORE HACK (EDAEASS-12795). This method is not part of vanilla Moodle.
+     *
+     * @param $preferredbehaviour
+     * @return \core\qbehaviour\behaviour_factory_interface
+     */
+    public static function get_behaviour_factory($preferredbehaviour) {
+        return self::get_behaviour_type($preferredbehaviour)->make_behaviour_factory($preferredbehaviour);
     }
 
     /**
@@ -265,14 +278,12 @@ abstract class question_engine {
      * @return question_behaviour an instance of appropriate behaviour class.
      */
     public static function make_behaviour($behaviour, question_attempt $qa, $preferredbehaviour) {
-        try {
-            self::load_behaviour_class($behaviour);
-        } catch (Exception $e) {
-            self::load_behaviour_class('missing');
-            return new qbehaviour_missing($qa, $preferredbehaviour);
-        }
-        $class = 'qbehaviour_' . $behaviour;
-        return new $class($qa, $preferredbehaviour);
+        /* BEGIN EASSESS CORE HACK (EDAEASS-12795) */
+        // Question with special behaviour requirements such as essay, description.
+        $factory = isset($preferredbehaviour) ? self::get_behaviour_factory($preferredbehaviour)
+            : self::get_behaviour_factory($behaviour);
+        return $factory->make_behaviour($qa, $behaviour);
+        /* END EASSESS CORE HACK */
     }
 
     /**

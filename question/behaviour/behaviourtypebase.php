@@ -60,6 +60,18 @@ abstract class question_behaviour_type {
     }
 
     /**
+     * Return an instance of the default behaviour factory.
+     *
+     * EASSESS CORE HACK (EDAEASS-12795). This method is not part of vanilla Moodle.
+     *
+     * @param $preferredbehaviour
+     * @return \core\qbehaviour\behaviour_factory_interface
+     */
+    public function make_behaviour_factory($preferredbehaviour) {
+        return new \core\qbehaviour\behaviour_factory($preferredbehaviour);
+    }
+
+    /**
      * With this behaviour, is it possible that a question might finish as the student
      * interacts with it, without a call to the {@link question_attempt::finish()} method?
      * @return bool whether with this behaviour, questions may finish naturally.
