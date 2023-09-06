@@ -115,6 +115,28 @@ if (!empty($add)) {
     require_login($course, false, $cm); // needed to setup proper $COURSE
 
     list($cm, $context, $module, $data, $cw) = get_moduleinfo_data($cm, $course);
+
+    /* BEGIN EASSESS CORE HACK (EDAEASS-9753, EDAEASS-12840 */
+    // The local_examsettings plugin provides a simpler version of the modedit page
+    // which we want users to see by default.
+    //
+    // We refer to the regular modedit page from core as the "advanced settings" page.
+    //
+    // So by default we send people to the simpler page from this plugin, and if they
+    // have the capability to see the "advanced settings", we just let them view the
+    // regular page (i.e., this one).
+    //
+    // Note also that this hack prevents people without the capability from creating
+    // new modules, but it allows them to edit existing ones. The use case here is to
+    // prevent academics from accidentally changing important aspects of quizzes. For
+    // example: Exam start/end dates/times, API key, etc.
+    if (class_exists('\local_examsettings\lib\helper')) {
+        if (!\local_examsettings\lib\helper::can_view_and_edit_advancedsettings($context)) {
+            redirect(new moodle_url('/local/examsettings/modedit.php', ['update' => $update, 'return' => 1]));
+        }
+    }
+    /* END EASSESS CORE HACK */
+
     $data->return = $return;
     if (!is_null($sectionreturn)) {
         $data->sr = $sectionreturn;
