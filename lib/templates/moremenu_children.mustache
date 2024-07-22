@@ -40,8 +40,9 @@
         >
             {{{text}}}
         </a>
-        <div class="dropdown-menu" role="menu" id="drop-down-menu-{{moremenuid}}" aria-labelledby="drop-down-{{moremenuid}}">
+        <ul class="dropdown-menu" role="menu" id="drop-down-menu-{{moremenuid}}" aria-labelledby="drop-down-{{moremenuid}}">
             {{#children}}
+            <li data-key="{{key}}" class="nav-item" role="none" data-forceintomoremenu="{{#forceintomoremenu}}true{{/forceintomoremenu}}{{^forceintomoremenu}}false{{/forceintomoremenu}}">
                 {{^divider}}
                     {{#is_action_link}}
                         <a class="dropdown-item" role="menuitem" {{#actionattributes}}{{name}}="{{value}}" {{/actionattributes}} href="{{{url}}}{{{action}}}"
@@ -55,18 +56,19 @@
                         {{/action_link_actions}}
                     {{/is_action_link}}
                     {{^is_action_link}}
-                        <a class="dropdown-item" role="menuitem" href="{{{url}}}{{{action}}}" {{#isactive}}aria-current="true"{{/isactive}} tabindex="-1"
+                        <a class="dropdown-item" role="menuitem" href="{{{url}}}{{{action}}}" {{#isactive}}aria-current="true"{{/isactive}} data-disableactive="true" tabindex="-1"
                             {{#title}}title="{{.}}"{{/title}}
                         >
                             {{{text}}}
                         </a>
                     {{/is_action_link}}
                 {{/divider}}
+            </li>
                 {{#divider}}
                     <div class="dropdown-divider"></div>
                 {{/divider}}
             {{/children}}
-        </div>
+        </ul>
     </li>
 {{/haschildren}}
 {{^haschildren}}
@@ -110,6 +112,7 @@
                     href="{{{url}}}{{{action}}}"
                     {{#title}}title="{{.}}"{{/title}}
                     {{#isactive}}aria-current="true"{{/isactive}}
+                    data-disableactive="true"
                     {{^isactive}}tabindex="-1"{{/isactive}}
                 >
                     {{{text}}}
