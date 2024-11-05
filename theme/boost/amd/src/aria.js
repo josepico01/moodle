@@ -383,6 +383,12 @@ const comboboxFix = () => {
             return;
         }
 
+        processSelectedOption(combobox, option.dataset.value);
+
+        if (option.dataset.disableactive) {
+            return;
+        }
+
         if (oldSelectedOption) {
             oldSelectedOption.removeAttribute('aria-selected');
         }
