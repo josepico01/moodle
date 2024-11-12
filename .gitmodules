@@ -111,11 +111,6 @@
 	branch = MOODLE_402_STABLE
 	path = local/assessfreq
 	url = git@github.com:catalyst/moodle-local_assessfreq.git
-[submodule "local/aws"]
-	autoupdate = merge
-	branch = master
-	path = local/aws
-	url = git@github.com:catalyst/moodle-local_aws.git
 [submodule "local/csp"]
 	autoupdate = merge
 	branch = MOODLE_401_STABLE
