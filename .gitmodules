@@ -8,10 +8,6 @@
 	branch = MOODLE_38_STABLE
 	path = admin/tool/beacon
 	url = git@git.catalyst-au.net:elearning/moodle-tool_beacon.git
-[submodule "admin/tool/catmaintenance"]
-	branch = master
-	path = admin/tool/catmaintenance
-	url = git@git.catalyst-au.net:mirrors/moodle-tool_catmaintenance.git
 [submodule "admin/tool/cloudmetrics"]
 	autoupdate = merge
 	branch = MOODLE_35_STABLE
