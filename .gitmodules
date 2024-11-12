@@ -1,0 +1,162 @@
+[submodule "admin/tool/abconfig"]
+	autoupdate = merge
+	branch = MOODLE_38_STABLE
+	path = admin/tool/abconfig
+	url = git@github.com:catalyst/moodle-tool_abconfig.git
+[submodule "admin/tool/beacon"]
+	autoupdate = merge
+	branch = MOODLE_38_STABLE
+	path = admin/tool/beacon
+	url = git@git.catalyst-au.net:elearning/moodle-tool_beacon.git
+[submodule "admin/tool/catmaintenance"]
+	branch = master
+	path = admin/tool/catmaintenance
+	url = git@git.catalyst-au.net:mirrors/moodle-tool_catmaintenance.git
+[submodule "admin/tool/cloudmetrics"]
+	autoupdate = merge
+	branch = MOODLE_35_STABLE
+	path = admin/tool/cloudmetrics
+	url = git@github.com:catalyst/moodle-tool_cloudmetrics.git
+[submodule "admin/tool/emailutils"]
+	autoupdate = merge
+	branch = MOODLE_39_STABLE
+	path = admin/tool/emailutils
+	url = git@github.com:catalyst/moodle-tool_emailutils.git
+[submodule "admin/tool/excimer"]
+	autoupdate = merge
+	branch = MOODLE_35_STABLE
+	path = admin/tool/excimer
+	url = git@github.com:catalyst/moodle-tool_excimer.git
+[submodule "admin/tool/fix_delete_modules"]
+	autoupdate = merge
+	branch = main
+	path = admin/tool/fix_delete_modules
+	url = git@github.com:catalyst/moodle-tool_fix_delete_modules.git
+[submodule "admin/tool/forcedcache"]
+	autoupdate = merge
+	branch = MOODLE_40_STABLE
+	path = admin/tool/forcedcache
+	url = git@github.com:catalyst/moodle-tool_forcedcache.git
+[submodule "admin/tool/heartbeat"]
+	autoupdate = merge
+	branch = MOODLE_39_STABLE
+	path = admin/tool/heartbeat
+	url = git@github.com:catalyst/moodle-tool_heartbeat.git
+[submodule "admin/tool/log/store/standardqueued"]
+	autoupdate = merge
+	branch = MOODLE_39_STABLE
+	path = admin/tool/log/store/standardqueued
+	url = git@git.catalyst-au.net:elearning/moodle-logstore_standardqueued.git
+[submodule "admin/tool/objectfs"]
+	autoupdate = merge
+	branch = MOODLE_402_STABLE
+	path = admin/tool/objectfs
+	url = git@github.com:catalyst/moodle-tool_objectfs.git
+[submodule "admin/tool/securityquestions"]
+	autoupdate = merge
+	branch = MOODLE_401_STABLE
+	path = admin/tool/securityquestions
+	url = git@github.com:catalyst/moodle-tool_securityquestions.git
+[submodule "admin/tool/userdebug"]
+	autoupdate = merge
+	branch = MOODLE_404_STABLE
+	path = admin/tool/userdebug
+	url = git@github.com:grabs/moodle-tool_userdebug.git
+[submodule "admin/tool/webanalytics"]
+	autoupdate = merge
+	branch = MOODLE_401_STABLE
+	path = admin/tool/webanalytics
+	url = git@github.com:catalyst/moodle-tool_webanalytics.git
+[submodule "auth/catadmin"]
+	autoupdate = merge
+	branch = MOODLE_39_STABLE
+	path = auth/catadmin
+	url = git@git.catalyst-au.net:elearning/moodle-auth_catadmin.git
+[submodule "auth/catalyst"]
+	autoupdate = merge
+	branch = STABLE_33
+	path = auth/catalyst
+	url = git@git.catalyst-au.net:elearning/mdl-auth_catalyst.git
+[submodule "auth/outage"]
+	autoupdate = merge
+	branch = MOODLE_39_STABLE
+	path = auth/outage
+	url = git@github.com:catalyst/moodle-auth_outage.git
+[submodule "auth/saml2"]
+	autoupdate = merge
+	branch = MOODLE_39_STABLE
+	path = auth/saml2
+	url = git@github.com:catalyst/moodle-auth_saml2.git
+[submodule "blocks/configurable_reports"]
+	autoupdate = merge
+	branch = MOODLE_311_STABLE-catalyst
+	path = blocks/configurable_reports
+	url = git@github.com:catalyst/moodle-block_configurablereports.git
+[submodule "course/format/hero"]
+	branch = MOODLE_402_STABLE
+	path = course/format/hero
+	url = git@github.com:catalyst/moodle-format_hero.git
+[submodule "course/format/twocol"]
+	branch = MOODLE_400_STABLE
+	path = course/format/twocol
+	url = git@github.com:catalyst/moodle-format_twocol.git
+[submodule "files/converter/librelambda"]
+	autoupdate = merge
+	branch = master
+	path = files/converter/librelambda
+	url = git@github.com:catalyst/moodle-fileconverter_librelambda.git
+[submodule "lib/editor/atto/plugins/htmlplus"]
+	autoupdate = merge
+	branch = master
+	path = lib/editor/atto/plugins/htmlplus
+	url = git@github.com:andrewnicols/moodle-atto_htmlplus.git
+[submodule "lib/editor/atto/plugins/preview"]
+	autoupdate = merge
+	branch = master
+	path = lib/editor/atto/plugins/preview
+	url = git@github.com:dthies/moodle-atto_preview.git
+[submodule "local/assessfreq"]
+	autoupdate = merge
+	branch = MOODLE_402_STABLE
+	path = local/assessfreq
+	url = git@github.com:catalyst/moodle-local_assessfreq.git
+[submodule "local/aws"]
+	autoupdate = merge
+	branch = master
+	path = local/aws
+	url = git@github.com:catalyst/moodle-local_aws.git
+[submodule "local/csp"]
+	autoupdate = merge
+	branch = MOODLE_401_STABLE
+	path = local/csp
+	url = git@github.com:catalyst/moodle-local_csp.git
+[submodule "local/datacleaner"]
+	autoupdate = merge
+	branch = MOODLE_311_STABLE
+	path = local/datacleaner
+	url = git@github.com:catalyst/moodle-local_datacleaner.git
+[submodule "local/envbar"]
+	autoupdate = merge
+	branch = VERSION3
+	path = local/envbar
+	url = git@github.com:catalyst/moodle-local_envbar.git
+[submodule "report/benchmark"]
+	autoupdate = merge
+	branch = master
+	path = report/benchmark
+	url = git@github.com:mikasmart/moodle-report_benchmark.git
+[submodule "report/coursesize"]
+	autoupdate = merge
+	branch = MOODLE_39_STABLE
+	path = report/coursesize
+	url = git@github.com:catalyst/moodle-report_coursesize.git
+[submodule "report/customsql"]
+	autoupdate = merge
+	branch = main
+	path = report/customsql
+	url = git@github.com:moodleou/moodle-report_customsql.git
+[submodule "search/engine/elastic"]
+	autoupdate = merge
+	branch = MOODLE_402_STABLE
+	path = search/engine/elastic
+	url = git@github.com:catalyst/moodle-search_elastic.git
