@@ -7,7 +7,7 @@
 	autoupdate = merge
 	branch = MOODLE_38_STABLE
 	path = admin/tool/beacon
-	url = git@git.catalyst-au.net:elearning/moodle-tool_beacon.git
+	url = git@git.catalyst-it.io:elearning/moodle-tool_beacon.git
 [submodule "admin/tool/cloudmetrics"]
 	autoupdate = merge
 	branch = MOODLE_404_STABLE
@@ -42,7 +42,7 @@
 	autoupdate = merge
 	branch = MOODLE_39_STABLE
 	path = admin/tool/log/store/standardqueued
-	url = git@git.catalyst-au.net:elearning/moodle-logstore_standardqueued.git
+	url = git@git.catalyst-it.io:elearning/moodle-logstore_standardqueued.git
 [submodule "admin/tool/objectfs"]
 	autoupdate = merge
 	branch = MOODLE_404_STABLE
