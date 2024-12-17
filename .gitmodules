@@ -38,6 +38,10 @@
 	branch = MOODLE_39_STABLE
 	path = admin/tool/heartbeat
 	url = git@github.com:catalyst/moodle-tool_heartbeat.git
+[submodule "admin/tool/passwordvalidator"]
+	branch = MOODLE_401_STABLE
+	path = admin/tool/passwordvalidator
+	url = git@github.com:catalyst/moodle-tool_passwordvalidator.git
 [submodule "admin/tool/log/store/standardqueued"]
 	autoupdate = merge
 	branch = MOODLE_39_STABLE
@@ -141,6 +145,10 @@
 	branch = main
 	path = report/customsql
 	url = git@github.com:moodleou/moodle-report_customsql.git
+[submodule "report/upgradelog"]
+	branch = master
+	path = report/upgradelog
+	url = git@github.com:paulholden/moodle-report_upgradelog.git
 [submodule "search/engine/elastic"]
 	autoupdate = merge
 	branch = MOODLE_404_STABLE
