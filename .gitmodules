@@ -127,7 +127,7 @@
 	url = git@github.com:catalyst/moodle-local_datacleaner.git
 [submodule "local/envbar"]
 	autoupdate = merge
-	branch = VERSION3
+	branch = MOODLE_405_STABLE
 	path = local/envbar
 	url = git@github.com:catalyst/moodle-local_envbar.git
 [submodule "report/benchmark"]
