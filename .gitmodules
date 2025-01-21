@@ -69,7 +69,7 @@
 	url = git@github.com:catalyst/moodle-tool_webanalytics.git
 [submodule "auth/catadmin"]
 	autoupdate = merge
-	branch = MOODLE_404_STABLE
+	branch = MOODLE_405_STABLE
 	path = auth/catadmin
 	url = git@git.catalyst-it.io:elearning/moodle-auth_catadmin.git
 [submodule "auth/outage"]
