@@ -3,6 +3,11 @@
 	branch = MOODLE_38_STABLE
 	path = admin/tool/abconfig
 	url = git@github.com:catalyst/moodle-tool_abconfig.git
+[submodule "admin/tool/advancedreplace"]
+	autoupdate = merge
+	branch = MOODLE_401_STABLE
+	path = admin/tool/advancedreplace
+	url = git@github.com:catalyst/moodle-tool_advancedreplace.git
 [submodule "admin/tool/beacon"]
 	autoupdate = merge
 	branch = MOODLE_38_STABLE
@@ -18,6 +23,11 @@
 	branch = MOODLE_404_STABLE
 	path = admin/tool/emailutils
 	url = git@github.com:catalyst/moodle-tool_emailutils.git
+[submodule "admin/tool/encoded"]
+	autoupdate = merge
+	branch = MOODLE_401_STABLE
+	path = admin/tool/encoded
+	url = git@github.com:catalyst/moodle-tool_encoded.git
 [submodule "admin/tool/excimer"]
 	autoupdate = merge
 	branch = MOODLE_403_STABLE
