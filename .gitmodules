@@ -49,6 +49,7 @@
 	path = admin/tool/objectfs
 	url = git@github.com:catalyst/moodle-tool_objectfs.git
 [submodule "admin/tool/passwordvalidator"]
+	autoupdate = merge
 	branch = MOODLE_401_STABLE
 	path = admin/tool/passwordvalidator
 	url = git@github.com:catalyst/moodle-tool_passwordvalidator.git
@@ -88,10 +89,12 @@
 	path = blocks/configurable_reports
 	url = git@github.com:catalyst/moodle-block_configurablereports.git
 [submodule "course/format/hero"]
+	autoupdate = merge
 	branch = MOODLE_404_STABLE
 	path = course/format/hero
 	url = git@github.com:catalyst/moodle-format_hero.git
 [submodule "course/format/twocol"]
+	autoupdate = merge
 	branch = MOODLE_404_STABLE
 	path = course/format/twocol
 	url = git@github.com:catalyst/moodle-format_twocol.git
