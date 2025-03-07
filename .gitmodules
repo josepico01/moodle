@@ -50,9 +50,9 @@
 	url = git@github.com:catalyst/moodle-tool_heartbeat.git
 [submodule "admin/tool/log/store/standardqueued"]
 	autoupdate = merge
-	branch = MOODLE_39_STABLE
+	branch = MOODLE_404_STABLE
 	path = admin/tool/log/store/standardqueued
-	url = git@git.catalyst-it.io:elearning/moodle-logstore_standardqueued.git
+	url = git@git.catalyst-au.net:elearning/moodle-logstore_standardqueued.git
 [submodule "admin/tool/objectfs"]
 	autoupdate = merge
 	branch = MOODLE_404_STABLE
