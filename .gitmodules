@@ -58,6 +58,11 @@
 	branch = MOODLE_404_STABLE
 	path = admin/tool/objectfs
 	url = git@github.com:catalyst/moodle-tool_objectfs.git
+[submodule "admin/tool/optiredis"]
+	autoupdate = merge
+	branch = MOODLE_405_STABLE
+	path = admin/tool/optiredis
+	url = git@git.catalyst-it.io:elearning/moodle-tool_optiredis.git
 [submodule "admin/tool/passwordvalidator"]
 	autoupdate = merge
 	branch = MOODLE_401_STABLE
