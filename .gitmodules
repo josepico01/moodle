@@ -52,7 +52,7 @@
 	autoupdate = merge
 	branch = MOODLE_404_STABLE
 	path = admin/tool/log/store/standardqueued
-	url = git@git.catalyst-au.net:elearning/moodle-logstore_standardqueued.git
+	url = git@git.catalyst-au.net:mirrors/moodle-logstore_standardqueued.git
 [submodule "admin/tool/objectfs"]
 	autoupdate = merge
 	branch = MOODLE_404_STABLE
