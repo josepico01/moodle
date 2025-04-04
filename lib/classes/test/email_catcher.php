@@ -14,18 +14,36 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace core\test;
+
 /**
- * Version information for the quizaccess_seb plugin.
+ * Generic email catcher interface.
  *
- * @package    quizaccess_seb
- * @author     Andrew Madden <andrewmadden@catalyst-au.net>
- * @copyright  2019 Catalyst IT
+ * @package    core
+ * @category   test
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright  Simey Lameze <simey@moodle.com>
  */
+interface email_catcher {
 
-defined('MOODLE_INTERNAL') || die();
+    /**
+     * Get a list of messages from the mailpit server.
+     *
+     * @param bool $showdetails Optional. Whether to include detailed information in the messages. Default is false.
+     * @return iterable<message>
+     */
+    public function get_messages(bool $showdetails = false): iterable;
 
-$plugin->version = 2024100701;
-$plugin->requires = 2024100100;
-$plugin->component = 'quizaccess_seb';
-$plugin->maturity = MATURITY_STABLE;
+    /**
+     * Delete all messages from the mailpit server.
+     */
+    public function delete_all();
+
+    /**
+     * Search for a message in the mailpit server.
+     *
+     * @param string $query The search query.
+     * @return iterable
+     */
+    public function search(string $query): iterable;
+}

@@ -14,19 +14,28 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace core\test;
+
 /**
- * Plugin version and other meta-data are defined here.
+ * Generic message user interface.
  *
- * @package     factor_sms
- * @subpackage  tool_mfa
- * @author      Peter Burnett <peterburnett@catalyst-au.net>
- * @copyright   Catalyst IT
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    core
+ * @category   test
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright  Andrew Lyons <andrew@nicols.co.uk>
  */
+interface message_user {
+    /**
+     * Get the display name of the user.
+     *
+     * @return string
+     */
+    public function get_name(): string;
 
-defined('MOODLE_INTERNAL') || die();
-
-$plugin->version      = 2024100701;      // The current plugin version (Date: YYYYMMDDXX).
-$plugin->requires     = 2024100100;   // Requires this Moodle version.
-$plugin->component    = 'factor_sms';   // Full name of the plugin (used for diagnostics).
-$plugin->maturity     = MATURITY_STABLE;
+    /**
+     * Get the email address of the user.
+     *
+     * @return string
+     */
+    public function get_address(): string;
+}
