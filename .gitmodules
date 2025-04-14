@@ -87,7 +87,7 @@
 	autoupdate = merge
 	branch = MOODLE_405_STABLE
 	path = auth/catadmin
-	url = git@git.catalyst-au.net:mirrors/auth_catadmin.git
+	url = git@git.catalyst-au.net:mirrors/moodle-auth_catadmin.git
 [submodule "auth/outage"]
 	autoupdate = merge
 	branch = MOODLE_39_STABLE
