@@ -23,6 +23,9 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+/* BEGIN EASSESS CORE HACK (EDAEASS-18085) */
+use core_question\hook\before_autosave_loaded;
+/* END EASSESS CORE HACK */
 use core_question\local\bank\question_edit_contexts;
 
 defined('MOODLE_INTERNAL') || die();
@@ -1708,6 +1711,62 @@ class question_attempt {
     }
 
     /**
+     * This allows plugins to "intercept" a question answer on load from the DB.
+     *
+     * For questions supporting a diff/delta answer (like Tezessay) a hook listener is implemented
+     * the question to build the xdiff formated answer into the original answer.
+     *
+     * For question types that support subquestions, all subquestions are unwrapped to function
+     * as independent questions so they can receive the appropriate hooks, then the parent question
+     * is updated with the subquestion step data.
+     *
+     * The converse operation (intercept on save) is handled in qbehaviour_monasheass. We had to implement
+     * the intercept on load functionality as a core hack because there are no available extension points.
+     * But for intercept on save we were able to leverage the question behaviour as it is a Monash business
+     * rule that all questions will use the monasheass question behaviour.
+     *
+     * EASSESS CORE HACK (EDAEASS-18085). This method is not part of vanilla Moodle.
+     *
+     * @param question_definition $question The question applying the loaded step.
+     * @param question_attempt $qa  The question attempt.
+     * @param question_attempt_step $step    The question step to be mutated.
+     * @param int|null $sequence    The sequence number of the step within the question attempt.
+     */
+    public static function apply_loaded_step(question_definition $question,
+                                             question_attempt $qa,
+                                             question_attempt_step $step,
+                                             int|null $sequence): void {
+        // Check if the question contains the subquestions property, because if it does then all of the subquestions
+        // will need to have the hook applied to them individually.
+        if (property_exists($question, 'subquestions')) {
+            foreach ($question->subquestions as $index => $subquestion) {
+                // MDL-84507 will bring one-to-one callbacks. When it's implemented, we'll be ready to use that system
+                // by switching this to the Dependency Injection system's dispatcher.
+                // The only plugin that currently implements the below component_class_callback is Composite.
+                // If we need Multianswer/Cloze to implement this, you can make a
+                // qtype_cloze\hook_callbacks::unwrap_subquestion implementation with the following:
+                // $subqa = $this->qa;
+                // $subqstep = new question_attempt_step_subquestion_adapter($pendingstep, 'sub' . $index . '_');
+                // $childquestion = $subquestion;
+                // Or you can avoid making a core hack for Cloze by creating a new qtype plugin that wraps the core
+                // implementation of Cloze and implements the unwrap_subquestion component class callback.
+                // In both cases, the callback featured below will be picked up, as the only requirement to receive
+                // this callback is to have hooks_callback.php file with a unwrap_subquestion implementation in a question type.
+                [$subqa, $subqstep, $childquestion] = component_class_callback($question->qtype::class . "\hook_callbacks",
+                    "unwrap_subquestion",     // The name of the function that that handles this component class callback.
+                    [$question, $qa, $step, $subquestion, $index],    // The function parameters.
+                    [$qa, $step, $subquestion]);   // The default return value if no component class callback exists.
+
+                $hook = new before_autosave_loaded($childquestion, $subqa, $subqstep, $sequence);
+                \core\di::get(\core\hook\manager::class)->dispatch($hook);
+            }
+        }
+        // With the subquestions handled (if they existed), we dispatch  a hook for the question itself.
+        $hook = new before_autosave_loaded($question, $qa, $step, $sequence);
+        \core\di::get(\core\hook\manager::class)->dispatch($hook);
+    }
+
+    /**
      * Create a question_attempt_step from records loaded from the database.
      *
      * For internal use only.
@@ -1788,6 +1847,9 @@ class question_attempt {
                         $qa->steps[$i - 1] = $nextstep;
                     }
                 } else {
+                    /* BEGIN EASSESS CORE HACK (EDAEASS-18085) */
+                    self::apply_loaded_step($question, $qa, $nextstep, $i);
+                    /* END EASSESS CORE HACK */
                     $qa->steps[$i] = $nextstep;
                     if ($i == 0) {
                         $question->apply_attempt_state($qa->steps[0]);
@@ -1805,8 +1867,13 @@ class question_attempt {
 
         if ($autosavedstep) {
             if ($autosavedsequencenumber >= $i) {
+                /* BEGIN EASSESS CORE HACK (EDAEASS-18085) */
+                self::apply_loaded_step($question, $qa, $autosavedstep, $i);
+                /* END EASSESS CORE HACK */
                 $qa->autosavedstep = $autosavedstep;
-                $qa->steps[$i] = $qa->autosavedstep;
+                /* BEGIN EASSESS CORE HACK (EDAEASS-18085) */
+                $qa->steps[$i] = $autosavedstep;
+                /* END EASSESS CORE HACK */
             } else {
                 $qa->observer->notify_step_deleted($autosavedstep, $qa);
             }
