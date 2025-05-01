@@ -1096,7 +1096,9 @@ class structure {
 
         $this->refresh_page_numbers_and_update_db();
 
-        $trans->allow_commit();
+        // Safely extract reference IDs if available.
+        $questionreferenceid = $questionreference && !empty($questionreference->id) ? $questionreference->id : null;
+        $questionsetreferenceid = $questionsetreference && !empty($questionsetreference->id) ? $questionsetreference->id : null;
 
         // Log slot deleted event.
         $event = \mod_quiz\event\slot_deleted::create([
@@ -1105,9 +1107,22 @@ class structure {
             'other' => [
                 'quizid' => $this->get_quizid(),
                 'slotnumber' => $slotnumber,
-            ]
+                'questionreferenceid' => $questionreferenceid,
+                'questionsetreferenceid' => $questionsetreferenceid,
+            ],
         ]);
+        $event->add_record_snapshot('quiz_slots', $slot);
+
+        // Add snapshots for question and random question references when available.
+        if ($questionreferenceid) {
+            $event->add_record_snapshot('question_references', $questionreference);
+        }
+        if ($questionsetreferenceid) {
+            $event->add_record_snapshot('question_set_references', $questionsetreference);
+        }
+
         $event->trigger();
+        $trans->allow_commit();
     }
 
     /**
