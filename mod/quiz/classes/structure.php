@@ -1101,8 +1101,6 @@ class structure {
 
         $this->refresh_page_numbers_and_update_db();
 
-        $trans->allow_commit();
-
         // Log slot deleted event.
         $event = \mod_quiz\event\slot_deleted::create([
             'context' => $this->quizobj->get_context(),
@@ -1110,9 +1108,17 @@ class structure {
             'other' => [
                 'quizid' => $this->get_quizid(),
                 'slotnumber' => $slotnumber,
-            ]
+                'questionreferenceid' => isset($questionreference) && is_object($questionreference) ?
+                $questionreference->id : null,
+                'questionsetreferenceid' => isset($questionsetreference) && is_object($questionsetreference) ?
+                $questionsetreference->id : null,
+            ],
         ]);
+        $event->add_record_snapshot('quiz_slots', $slot);
+        $event->add_record_snapshot('question_references', $questionreference);
+        $event->add_record_snapshot('question_set_references', $questionsetreference);
         $event->trigger();
+        $trans->allow_commit();
     }
 
     /**
