@@ -95,7 +95,7 @@
 	url = git@github.com:catalyst/moodle-auth_outage.git
 [submodule "auth/saml2"]
 	autoupdate = merge
-	branch = MOODLE_404_STABLE
+	branch = MOODLE_405_STABLE
 	path = auth/saml2
 	url = git@github.com:catalyst/moodle-auth_saml2.git
 [submodule "blocks/configurable_reports"]
