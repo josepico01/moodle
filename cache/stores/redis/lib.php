@@ -119,11 +119,18 @@ class cachestore_redis extends store implements
 
 
     /**
-     * The number of seconds to wait for a connection or response from the Redis server.
+     * The number of seconds to wait for a connection response from the Redis server.
      *
      * @var float
      */
     protected $connectiontimeout = self::CONNECTION_TIMEOUT;
+
+    /**
+     * The number of seconds to wait for a read from the Redis server.
+     *
+     * @var float
+     */
+    protected $readtimeout = self::CONNECTION_TIMEOUT;
 
     /**
      * Bytes read or written by last call to set()/get() or set_many()/get_many().
@@ -208,6 +215,9 @@ class cachestore_redis extends store implements
         if (array_key_exists('connectiontimeout', $configuration)) {
             $this->connectiontimeout = (float)$configuration['connectiontimeout'];
         }
+        if (array_key_exists('readtimeout', $configuration)) {
+            $this->readtimeout = (float)$configuration['readtimeout'];
+        }
         if (array_key_exists('lockwait', $configuration)) {
             $this->lockwait = (int)$configuration['lockwait'];
         }
@@ -289,7 +299,7 @@ class cachestore_redis extends store implements
                         name: null,
                         seeds: $trimmedservers,
                         timeout: $this->connectiontimeout, // Timeout.
-                        read_timeout: $this->connectiontimeout, // Read timeout.
+                        read_timeout: $this->readtimeout, // Read timeout.
                         persistent: true,
                         auth: $password,
                         context: !empty($opts) ? $opts : null,
@@ -299,7 +309,7 @@ class cachestore_redis extends store implements
                         null,
                         $trimmedservers,
                         $this->connectiontimeout,
-                        $this->connectiontimeout,
+                        $this->readtimeout,
                         true, $password,
                         !empty($opts) ? $opts : null,
                     );
@@ -313,7 +323,7 @@ class cachestore_redis extends store implements
                         port: $port,
                         timeout: $this->connectiontimeout, // Timeout.
                         retry_interval: 100, // Retry interval.
-                        read_timeout: $this->connectiontimeout, // Read timeout.
+                        read_timeout: $this->readtimeout, // Read timeout.
                         context: $opts,
                     );
                 } else {
@@ -322,7 +332,7 @@ class cachestore_redis extends store implements
                         $this->connectiontimeout,
                         null,
                         100,
-                        $this->connectiontimeout,
+                        $this->readtimeout,
                         $opts,
                     );
                 }
@@ -890,6 +900,7 @@ class cachestore_redis extends store implements
             'serializer' => $data->serializer,
             'compressor' => $data->compressor,
             'connectiontimeout' => $data->connectiontimeout,
+            'readtimeout' => $data->readtimeout,
             'encryption' => $data->encryption,
             'cafile' => $data->cafile,
             'clustermode' => $data->clustermode,
@@ -916,6 +927,9 @@ class cachestore_redis extends store implements
         }
         if (!empty($config['connectiontimeout'])) {
             $data['connectiontimeout'] = $config['connectiontimeout'];
+        }
+        if (!empty($config['readtimeout'])) {
+            $data['readtimeout'] = $config['readtimeout'];
         }
         if (!empty($config['encryption'])) {
             $data['encryption'] = $config['encryption'];
