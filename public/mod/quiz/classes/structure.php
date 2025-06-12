@@ -1097,8 +1097,8 @@ class structure {
         $this->refresh_page_numbers_and_update_db();
 
         // Safely extract reference IDs if available.
-        $questionreferenceid = $questionreference && !empty($questionreference->id) ? $questionreference->id : null;
-        $questionsetreferenceid = $questionsetreference && !empty($questionsetreference->id) ? $questionsetreference->id : null;
+        $questionreferenceid = $questionreference->id ?? null;
+        $questionsetreferenceid = $questionsetreference->id ?? null;
 
         // Log slot deleted event.
         $event = \mod_quiz\event\slot_deleted::create([
@@ -1114,10 +1114,10 @@ class structure {
         $event->add_record_snapshot('quiz_slots', $slot);
 
         // Add snapshots for question and random question references when available.
-        if ($questionreferenceid) {
+        if ($questionreference) {
             $event->add_record_snapshot('question_references', $questionreference);
         }
-        if ($questionsetreferenceid) {
+        if ($questionsetreference) {
             $event->add_record_snapshot('question_set_references', $questionsetreference);
         }
 
