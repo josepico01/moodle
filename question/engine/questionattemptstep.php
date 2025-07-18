@@ -704,7 +704,9 @@ class question_null_step {
  */
 class question_attempt_step_subquestion_adapter extends question_attempt_step {
     /** @var question_attempt_step the step we are wrapping. */
-    protected $realstep;
+    /* BEGIN EASSESS CORE HACK (EDAEASS-729) */
+    protected $realqas;
+    /* END EASSESS CORE HACK */
     /** @var string the exta prefix on fields we work with. */
     protected $extraprefix;
 
@@ -735,6 +737,12 @@ class question_attempt_step_subquestion_adapter extends question_attempt_step {
             return $this->extraprefix . $field;
         }
     }
+
+    /* BEGIN EASSESS CORE HACK (EDAEASS-729) */
+    public function get_prefix() {
+        return $this->extraprefix;
+    }
+    /* END EASSESS CORE HACK */
 
     /**
      * Remove the extra prefix from a field name if it is present.
@@ -841,8 +849,12 @@ class question_attempt_step_subquestion_adapter extends question_attempt_step {
     }
 
     public function prepare_response_files_draft_itemid_with_text($name, $contextid, $text) {
-        throw new coding_exception('No attempt has yet been made to implement files support in ' .
-                'question_attempt_step_subquestion_adapter.');
+        /* BEGIN EASSESS CORE HACK (EDAEASS-729) */
+        $draftid = 0; // Will be filled in by file_prepare_draft_area.
+        $newtext = file_prepare_draft_area($draftid, $contextid, 'question',
+            'response_' . $this->extraprefix . $name, $this->realqas->get_id(), null, $text);
+        return array($draftid, $newtext);
+        /* END EASSESS CORE HACK */
     }
 
     public function rewrite_response_pluginfile_urls($text, $contextid, $name, $extras) {

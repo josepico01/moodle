@@ -138,6 +138,18 @@ abstract class question_engine {
      * @return bool whether the submitted data is in range.
      */
     public static function is_manual_grade_in_range($qubaid, $slot) {
+        /* BEGIN EASSESS CORE HACK (EDAEASS-729) */
+        if (self::has_subquestions($qubaid, $slot)) {
+            $subqnum = 0;
+            do {
+                if (!self::is_subquestion_manual_grade_in_range($qubaid, $slot, $subqnum)) {
+                    return false;
+                }
+                $subqnum++;
+            } while(self::has_subquestion($qubaid, $slot, $subqnum));
+            return true;
+        }
+        /* END EASSESS CORE HACK */
         $prefix = 'q' . $qubaid . ':' . $slot . '_';
         $mark = question_utils::optional_param_mark($prefix . '-mark');
         $maxmark = optional_param($prefix . '-maxmark', null, PARAM_FLOAT);
@@ -147,6 +159,33 @@ abstract class question_engine {
                 ($mark !== null && $mark >= $minfraction * $maxmark && $mark <= $maxfraction * $maxmark) ||
                 ($mark === null && $maxmark === null);
     }
+
+    /* BEGIN EASSESS CORE HACK (EDAEASS-729) */
+    private static function has_subquestions($qubaid, $slot) {
+        return self::has_subquestion($qubaid, $slot, 0);
+    }
+
+    private static function has_subquestion($qubaid, $slot, $subqnum) {
+        $fieldname = 'q' . $qubaid . ':' . $slot . '_-sub' . $subqnum . '_maxmark';
+        $value = optional_param($fieldname, null, PARAM_FLOAT);
+        if ($value === null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private static function is_subquestion_manual_grade_in_range($qubaid, $slot, $subqnum) {
+        $prefix = 'q' . $qubaid . ':' . $slot . '_';
+        $mark = question_utils::optional_param_mark($prefix . '-sub' . $subqnum . '_mark');
+        $maxmark = optional_param($prefix . '-sub' . $subqnum . '_maxmark', null, PARAM_FLOAT);
+        $minfraction = optional_param($prefix . ':sub' . $subqnum . '_minfraction', null, PARAM_FLOAT);
+        $maxfraction = optional_param($prefix . ':sub' . $subqnum . '_maxfraction', null, PARAM_FLOAT);
+        return $mark === '' ||
+            ($mark !== null && $mark >= $minfraction * $maxmark && $mark <= $maxfraction * $maxmark) ||
+            ($mark === null && $maxmark === null);
+    }
+    /* END EASSESS CORE HACK */
 
     /**
      * @param array $questionids of question ids.

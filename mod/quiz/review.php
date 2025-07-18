@@ -129,7 +129,17 @@ if ($showall) {
 $output = $PAGE->get_renderer('mod_quiz');
 
 // Arrange for the navigation to be displayed.
-$navbc = $attemptobj->get_navigation_panel($output, navigation_panel_review::class, $page, $showall);
+/* BEGIN EASSESS CORE HACK (EDAEASS-45) */
+// Replace the core navigation panel with the composite question handler (if qtype_composite is installed).
+// This extends the nav panel to include subquestions (eg: 1, 1a, 1b).
+if (class_exists(\qtype_composite\nav_panel\quiz_attempt_nav_panel::class)) {
+    $navbc = $attemptobj->get_navigation_panel($output, \qtype_composite\nav_panel\quiz_attempt_nav_panel::class, $page, $showall);
+} else {
+    $navbc = $attemptobj->get_navigation_panel($output, navigation_panel_review::class, $page, $showall);
+}
+/* END EASSESS CORE HACK */
+
+
 $regions = $PAGE->blocks->get_regions();
 $PAGE->blocks->add_fake_block($navbc, reset($regions));
 
