@@ -427,14 +427,12 @@ class cron {
                 mtrace("... used " . (microtime(1) - $pretime) . " seconds");
             }
             mtrace('Scheduled task failed: ' . $fullname . ',' . $e->getMessage());
-            if ($CFG->debugdeveloper) {
-                if (!empty($e->debuginfo)) {
-                    mtrace("Debug info:");
-                    mtrace($e->debuginfo);
-                }
-                mtrace("Backtrace:");
-                mtrace(format_backtrace($e->getTrace(), true));
+            if (!empty($e->debuginfo)) {
+                mtrace("Debug info:");
+                mtrace($e->debuginfo);
             }
+            mtrace("Backtrace:");
+            mtrace(format_backtrace($e->getTrace(), true));
             \core\task\manager::scheduled_task_failed($task);
         } finally {
             // Reset debugging if it changed.
@@ -536,14 +534,12 @@ class cron {
                 mtrace("... used " . (microtime(1) - $pretime) . " seconds");
             }
             mtrace("Adhoc task failed: " . get_class($task) . "," . $e->getMessage());
-            if ($CFG->debugdeveloper) {
-                if (!empty($e->debuginfo)) {
-                    mtrace("Debug info:");
-                    mtrace($e->debuginfo);
-                }
-                mtrace("Backtrace:");
-                mtrace(format_backtrace($e->getTrace(), true));
+            if (!empty($e->debuginfo)) {
+                mtrace("Debug info:");
+                mtrace($e->debuginfo);
             }
+            mtrace("Backtrace:");
+            mtrace(format_backtrace($e->getTrace(), true));
             \core\task\manager::adhoc_task_failed($task);
         } finally {
             // Reset debug level if it changed.
