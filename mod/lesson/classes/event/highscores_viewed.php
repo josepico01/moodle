@@ -27,6 +27,8 @@ namespace mod_lesson\event;
 
 defined('MOODLE_INTERNAL') || die();
 
+debugging('mod_lesson\event\highscores_viewed has been deprecated. Since the functionality no longer resides in the lesson module.',
+        DEBUG_DEVELOPER);
 /**
  * The mod_lesson highscores viewed class.
  *
@@ -41,10 +43,6 @@ class highscores_viewed extends \core\event\base {
      * Set basic properties for the event.
      */
     protected function init() {
-        // phpcs:ignore moodle.Files.LineLength.TooLong
-        debugging('mod_lesson\event\highscores_viewed has been deprecated. Since the functionality no longer resides in the lesson module.',
-            DEBUG_DEVELOPER);
-
         $this->data['objecttable'] = 'lesson';
         $this->data['crud'] = 'r';
         $this->data['edulevel'] = self::LEVEL_PARTICIPATING;
