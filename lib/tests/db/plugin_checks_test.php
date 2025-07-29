@@ -52,10 +52,7 @@ final class plugin_checks_test extends \core\tests\plugin_checks_testcase {
         $xmldb = new \xmldb_file($file);
         $xmldb->loadXMLStructure();
         $xmlcontents = $xmldb->getStructure()->xmlOutput();
-        $this->assertXmlStringEqualsXmlString(
-            $rawcontents,
-            $xmlcontents,
-            "XMLDB structure does not match the install.xml file in $file",
-        );
+        $this->assertSame($xmlcontents, $rawcontents,
+            "Unexpected install.xml format detected, reconciliation needed in $file");
     }
 }
