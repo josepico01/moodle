@@ -136,7 +136,7 @@
 	autoupdate = merge
 	branch = MOODLE_403_STABLE
 	path = local/assessfreq
-	url = git@github.com:catalyst/moodle-local_assessfreq.git
+	url = git@git.catalyst-au.net:mirrors/moodle-local_assessfreq.git
 [submodule "local/csp"]
 	autoupdate = merge
 	branch = MOODLE_401_STABLE
