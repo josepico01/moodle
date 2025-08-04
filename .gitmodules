@@ -21,7 +21,7 @@
 [submodule "admin/tool/dataflows"]
 	branch = MOODLE_405_STABLE
 	path = admin/tool/dataflows
-	url = git@github.com:catalyst/moodle-tool_dataflows.git
+	url = git@git.catalyst-au.net:mirrors/moodle-tool_dataflows.git
 [submodule "admin/tool/emailutils"]
 	autoupdate = merge
 	branch = MOODLE_404_STABLE
@@ -111,7 +111,7 @@
 	autoupdate = merge
 	branch = MOODLE_404_STABLE
 	path = course/format/hero
-	url = git@github.com:catalyst/moodle-format_hero.git
+	url = git@git.catalyst-au.net:mirrors/moodle-format_hero.git
 [submodule "course/format/twocol"]
 	autoupdate = merge
 	branch = MOODLE_404_STABLE
