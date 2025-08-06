@@ -72,6 +72,11 @@
 	branch = MOODLE_401_STABLE
 	path = admin/tool/passwordvalidator
 	url = git@github.com:catalyst/moodle-tool_passwordvalidator.git
+[submodule "admin/tool/redirects"]
+	autoupdate = merge
+	branch = MOODLE_401_STABLE
+	path = admin/tool/redirects
+	url = git@github.com:catalyst/moodle-tool_redirects.git
 [submodule "admin/tool/securityquestions"]
 	autoupdate = merge
 	branch = MOODLE_401_STABLE
