@@ -110,6 +110,10 @@ class update_overdue_attempts extends \core\task\scheduled_task {
                 mtrace("Error while processing attempt $attempt->id at $attempt->quiz quiz:");
                 mtrace($e->getMessage());
                 mtrace($e->getTraceAsString());
+                // If available, output Moodle specific debug info too.
+                if (!empty($e->debuginfo)) {
+                    mtrace('Debug info: ' . $e->debuginfo);
+                }
                 // Close down any currently open transactions, otherwise one error
                 // will stop following DB changes from being committed.
                 $DB->force_transaction_rollback();
