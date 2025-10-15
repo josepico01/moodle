@@ -1835,6 +1835,7 @@ class quiz_attempt {
 
         $DB->update_record('quiz_attempts', $this->attempt);
 
+        $transaction->allow_commit();
         if (!$this->is_preview()) {
             $this->recompute_final_grade();
 
@@ -1846,7 +1847,6 @@ class quiz_attempt {
             $this->get_access_manager($timestamp)->current_attempt_finished();
         }
 
-        $transaction->allow_commit();
     }
 
     /**
@@ -1887,10 +1887,10 @@ class quiz_attempt {
         $this->attempt->timecheckstate = $timestamp;
         $DB->update_record('quiz_attempts', $this->attempt);
 
+        $transaction->allow_commit();
         $this->fire_state_transition_event('\mod_quiz\event\attempt_becameoverdue', $timestamp, $studentisonline);
 
         di::get(hook\manager::class)->dispatch(new attempt_state_changed($originalattempt, $this->attempt));
-        $transaction->allow_commit();
 
         quiz_send_overdue_message($this);
     }
@@ -1911,11 +1911,11 @@ class quiz_attempt {
         $this->attempt->timecheckstate = null;
         $DB->update_record('quiz_attempts', $this->attempt);
 
+        $transaction->allow_commit();
         $this->fire_state_transition_event('\mod_quiz\event\attempt_abandoned', $timestamp, $studentisonline);
 
         di::get(hook\manager::class)->dispatch(new attempt_state_changed($originalattempt, $this->attempt));
 
-        $transaction->allow_commit();
     }
 
     /**
@@ -1942,6 +1942,7 @@ class quiz_attempt {
         $this->attempt->timecheckstate = null;
         $DB->update_record('quiz_attempts', $this->attempt);
 
+        $transaction->allow_commit();
         $this->fire_state_transition_event('\mod_quiz\event\attempt_reopened', $timestamp, false);
 
         di::get(hook\manager::class)->dispatch(new attempt_state_changed($originalattempt, $this->attempt));
@@ -1950,7 +1951,6 @@ class quiz_attempt {
             $this->process_finish($timestamp, false, $timeclose);
         }
 
-        $transaction->allow_commit();
     }
 
     /**

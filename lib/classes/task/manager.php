@@ -263,8 +263,28 @@ class manager {
         $record->timecreated = $clock->time();
 
         // Check if the same task is already scheduled.
-        if ($checkforexisting && self::task_is_scheduled($task)) {
-            return false;
+        if ($checkforexisting) {
+            $cronlockfactory = \core\lock\lock_config::get_lock_factory('cron');
+            $customdatahash = !empty($record->customdata) ? sha1($record->customdata) : 'empty';
+            $lockkey = 'adhoc_' . $record->component . '::' . $record->classname . '::' . $customdatahash;
+
+            $lock = $cronlockfactory->get_lock($lockkey, 10);
+            if (!$lock) {
+                // Fail-safe: Queue the task anyway to ensure eventual processing.
+                $result = $DB->insert_record('task_adhoc', $record);
+                return $result;
+            }
+            try {
+                // Check again for an existing task now that we have the lock.
+                if (self::task_is_scheduled($task)) {
+                    return false;
+                }
+                // Queue the task.
+                $result = $DB->insert_record('task_adhoc', $record);
+                return $result;
+            } finally {
+                $lock->release();
+            }
         }
 
         // Queue the task.
