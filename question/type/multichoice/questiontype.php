@@ -341,4 +341,21 @@ class qtype_multichoice extends question_type {
         $this->delete_files_in_combined_feedback($questionid, $contextid);
         $this->delete_files_in_hints($questionid, $contextid);
     }
+    // START EASSESSMENT CORE HACK EDAEASS-19498.
+    /**
+     * Indicates if the question supports converting
+     * auto-saves to standard saves.
+     *
+     * This could create some risks in situations where
+     * the save process for auto-save and standard save differs
+     * significantly for a question. We do not expect this to be
+     * common.
+     *
+     * @return bool
+     */
+    public function supports_autosave_conversion() {
+        return false;
+    }
+
+    // END EASSESSMENT CORE HACK.
 }
