@@ -1083,7 +1083,17 @@ class edit_renderer extends \plugin_renderer_base {
 
         $editicon = $this->pix_icon('t/edit', $configuretitle, 'moodle', ['title' => '']);
         $qbankurlparams = [
-            'courseid' =>  $structure->get_courseid(),
+            /* BEGIN EASSESS CORE HACK (EDAEASS-19432)
+             * This core hack is not required for Moodle 5.0+.
+             * This fixes an issue that was introduced with MDL-82237 - 'mod_quiz: Include all filters in "See questions" link'.
+             * MDL-82237 did update the filter format, but it also incorrectly changed the URL parameter to be course ID,
+             * which incorrectly takes the user outside of the quiz context.
+             * This bug was introduced in 7c085e83 and then promptly fixed in (Core Moodle's repo) ed51c39.
+             * Looks like we managed to fork 4.1 for eAssessment in the short window that the fix wasn't rebased into core.
+             * Long story short: if the line below ever mentions 'courseid' and not 'cmid', then it's wrong.
+            */
+            'cmid' => $structure->get_cmid(),
+            /* END EASSESS CORE HACK */
             'filter' => json_encode($slot->filtercondition['filter']),
         ];
 
