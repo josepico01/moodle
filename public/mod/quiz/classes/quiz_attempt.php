@@ -1618,7 +1618,16 @@ class quiz_attempt {
      * @param bool $studentisonline is the student currently interacting with Moodle?
      */
     public function handle_if_time_expired($timestamp, $studentisonline) {
-
+        // ----- TEMPORARY TEST HOOK START -----
+        // Throw an exception so scheduled task will fail and emit debug output.
+        throw new \moodle_exception(
+            'testforcedfailure',
+            'quiz',
+            '',
+            null,
+            'Forced failure for testing. Extra debug info here.'
+        );
+        // ----- TEMPORARY TEST HOOK END -----
         $timeclose = $this->get_access_manager($timestamp)->get_end_time($this->attempt);
 
         if ($timeclose === false || $this->is_preview()) {
