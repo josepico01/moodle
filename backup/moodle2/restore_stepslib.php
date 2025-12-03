@@ -5333,16 +5333,6 @@ class restore_create_categories_and_questions extends restore_structure_step {
         $newquestionid   = $this->get_new_parentid('question');
         $questioncreated = $this->get_mappingid('question_created', $oldquestionid) ? true : false;
 
-        $decoder = $this->task->get_decoder();
-
-        restore_decode_processor::register_link_decoders($decoder);
-
-        // Decode the specific hint content.
-        $contentdecoded = $decoder->decode_content($data->hint);
-        if ($contentdecoded !== false) {
-            $data->hint = $contentdecoded;
-        }
-
         // If the question has been created by restore, we need to create its question_answers too
         if ($questioncreated) {
             // Adjust some columns
