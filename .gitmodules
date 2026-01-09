@@ -18,6 +18,10 @@
 	branch = MOODLE_404_STABLE
 	path = admin/tool/cloudmetrics
 	url = git@github.com:catalyst/moodle-tool_cloudmetrics.git
+[submodule "admin/tool/configconverger"]
+	branch = mdl45-monash-eassess
+	path = admin/tool/configconverger
+	url = git@git.catalyst-au.net:monash/moodle-tool_configconverger.git
 [submodule "admin/tool/dataflows"]
 	branch = MOODLE_405_STABLE
 	path = admin/tool/dataflows
@@ -57,6 +61,10 @@
 	branch = MOODLE_404_STABLE
 	path = admin/tool/log/store/standardqueued
 	url = git@git.catalyst-au.net:mirrors/moodle-logstore_standardqueued.git
+[submodule "admin/tool/messagebroker"]
+	branch = mdl45-monash
+	path = admin/tool/messagebroker
+	url = git@git.catalyst-au.net:monash/moodle-tool_messagebroker.git
 [submodule "admin/tool/objectfs"]
 	autoupdate = merge
 	branch = MOODLE_404_STABLE
@@ -72,11 +80,19 @@
 	branch = MOODLE_401_STABLE
 	path = admin/tool/passwordvalidator
 	url = git@github.com:catalyst/moodle-tool_passwordvalidator.git
+[submodule "admin/tool/pdfpages"]
+	branch = MOODLE_405_STABLE
+	path = admin/tool/pdfpages
+	url = git@github.com:catalyst/moodle-tool_pdfpages.git
 [submodule "admin/tool/publicfiles"]
 	autoupdate = merge
 	branch = MOODLE_405_STABLE
 	path = admin/tool/publicfiles
 	url = git@github.com:catalyst/moodle-tool_publicfiles.git
+[submodule "admin/tool/realtime"]
+	branch = mdl45-monash-eassess
+	path = admin/tool/realtime
+	url = git@git.catalyst-au.net:monash/eass/moodle-tool_realtime.git
 [submodule "admin/tool/redirects"]
 	autoupdate = merge
 	branch = MOODLE_401_STABLE
@@ -92,6 +108,10 @@
 	branch = MOODLE_405_STABLE
 	path = admin/tool/seo
 	url = git@github.com:catalyst/moodle-tool_seo.git
+[submodule "admin/tool/uploadenrolmentmethods"]
+	branch = mdl45-monash-eassess
+	path = admin/tool/uploadenrolmentmethods
+	url = git@git.catalyst-au.net:monash/eass/moodle-tool_uploadenrolmentmethods.git
 [submodule "admin/tool/userdebug"]
 	autoupdate = merge
 	branch = MOODLE_405_STABLE
@@ -137,6 +157,26 @@
 	branch = MOODLE_405_STABLE
 	path = files/converter/librelambda
 	url = git@github.com:catalyst/moodle-fileconverter_librelambda.git
+[submodule "lang/assess"]
+	branch = mdl45-monash-eassess
+	path = lang/assess
+	url = git@git.catalyst-au.net:monash/eass/moodle-lang_assess.git
+[submodule "lang/eassess"]
+	branch = mdl45-monash-eassess
+	path = lang/eassess
+	url = git@git.catalyst-au.net:monash/eass/moodle-lang_eassess.git
+[submodule "lib/editor/atto/plugins/advancedundo"]
+	branch = mdl45-monash-eassess
+	path = lib/editor/atto/plugins/advancedundo
+	url = git@git.catalyst-au.net:monash/eass/moodle-atto_advancedundo.git
+[submodule "lib/editor/atto/plugins/count"]
+	branch = mdl45-monash-eassess
+	path = lib/editor/atto/plugins/count
+	url = git@git.catalyst-au.net:monash/eass/moodle-atto_count.git
+[submodule "lib/editor/atto/plugins/essayfullscreen"]
+	branch = mdl45-monash-eassess
+	path = lib/editor/atto/plugins/essayfullscreen
+	url = git@git.catalyst-au.net:monash/eass/moodle-atto_essayfullscreen.git
 [submodule "lib/editor/atto/plugins/htmlplus"]
 	autoupdate = merge
 	branch = master
@@ -147,11 +187,31 @@
 	branch = master
 	path = lib/editor/atto/plugins/preview
 	url = git@github.com:dthies/moodle-atto_preview.git
+[submodule "local/accreditationpage"]
+	branch = mdl45-monash-eassess
+	path = local/accreditationpage
+	url = git@git.catalyst-au.net:monash/eass/moodle-local_accreditationpage.git
+[submodule "local/advancedconfig"]
+	branch = mdl45-monash-eassess
+	path = local/advancedconfig
+	url = git@git.catalyst-au.net:monash/moodle-local_advancedconfig.git
+[submodule "local/advancedusersearch"]
+	branch = mdl45-monash-eassess
+	path = local/advancedusersearch
+	url = git@git.catalyst-au.net:monash/eass/moodle-local_advancedusersearch.git
 [submodule "local/assessfreq"]
 	autoupdate = merge
 	branch = MOODLE_403_STABLE
 	path = local/assessfreq
 	url = git@git.catalyst-au.net:mirrors/moodle-local_assessfreq.git
+[submodule "local/backupws"]
+	branch = mdl45-monash-eassess
+	path = local/backupws
+	url = git@git.catalyst-au.net:monash/eass/moodle-local_backupws.git
+[submodule "local/batchmarking"]
+	branch = mdl45-monash-eassess
+	path = local/batchmarking
+	url = git@git.catalyst-au.net:monash/eass/moodle-local_batchmarking.git
 [submodule "local/csp"]
 	autoupdate = merge
 	branch = MOODLE_401_STABLE
@@ -162,11 +222,177 @@
 	branch = MOODLE_311_STABLE
 	path = local/datacleaner
 	url = git@github.com:catalyst/moodle-local_datacleaner.git
+[submodule "local/eassessment"]
+	branch = mdl45-monash-eassess
+	path = local/eassessment
+	url = git@git.catalyst-au.net:monash/eass/moodle-local_eassessment.git
 [submodule "local/envbar"]
 	autoupdate = merge
 	branch = MOODLE_405_STABLE
 	path = local/envbar
 	url = git@github.com:catalyst/moodle-local_envbar.git
+[submodule "local/evigilation"]
+	branch = mdl45-monash-eassess
+	path = local/evigilation
+	url = git@git.catalyst-au.net:monash/eass/moodle-local_evigilation.git
+[submodule "local/examsettings"]
+	branch = mdl45-monash-eassess
+	path = local/examsettings
+	url = git@git.catalyst-au.net:monash/eass/moodle-local_examsettings.git
+[submodule "local/examwaqfa"]
+	branch = mdl45-monash-eassess
+	path = local/examwaqfa
+	url = git@git.catalyst-au.net:monash/eass/moodle-local_examwaqfa.git
+[submodule "local/examworkflow"]
+	branch = mdl45-monash-eassess
+	path = local/examworkflow
+	url = git@git.catalyst-au.net:monash/eass/moodle-local_examworkflow.git
+[submodule "local/gradesyncws"]
+	branch = mdl45-monash-eassess
+	path = local/gradesyncws
+	url = git@git.catalyst-au.net:monash/eass/moodle-local_gradesyncws.git
+[submodule "local/kamiupload"]
+	branch = mdl45-monash-eassess
+	path = local/kamiupload
+	url = git@git.catalyst-au.net:monash/eass/moodle-local_kamiupload.git
+[submodule "local/kronika"]
+	branch = mdl45-monash-eassess
+	path = local/kronika
+	url = git@git.catalyst-au.net:monash/eass/moodle-local_kronika.git
+[submodule "local/mintegrations"]
+	branch = mdl45-monash
+	path = local/mintegrations
+	url = git@git.catalyst-au.net:monash/moodle-local_mintegrations.git
+[submodule "local/monashwidgets"]
+	branch = mdl45-monash-eassess
+	path = local/monashwidgets
+	url = git@git.catalyst-au.net:monash/eass/moodle-local_monashwidgets.git
+[submodule "local/pgbouncer"]
+	branch = mdl45-monash-eassess
+	path = local/pgbouncer
+	url = git@git.catalyst-au.net:monash/eass/moodle-local_pgbouncer.git
+[submodule "local/qparcelgrading"]
+	branch = mdl45-monash-eassess
+	path = local/qparcelgrading
+	url = git@git.catalyst-au.net:monash/eass/moodle-local_qparcelgrading.git
+[submodule "local/qrcode"]
+	branch = mdl45-monash-eassess
+	path = local/qrcode
+	url = git@git.catalyst-au.net:monash/eass/moodle-local_qrcode.git
+[submodule "local/questionflag"]
+	branch = mdl45-monash-eassess
+	path = local/questionflag
+	url = git@git.catalyst-au.net:monash/eass/moodle-local_questionflag.git
+[submodule "local/quizntjs"]
+	branch = mdl45-monash-eassess
+	path = local/quizntjs
+	url = git@git.catalyst-au.net:monash/eass/moodle-local_quizntjs.git
+[submodule "local/quizsavewatcher"]
+	branch = mdl45-monash-eassess
+	path = local/quizsavewatcher
+	url = git@git.catalyst-au.net:monash/eass/moodle-local_quizsavewatcher.git
+[submodule "local/redislock"]
+	branch = mdl45-monash-eassess
+	path = local/redislock
+	url = git@git.catalyst-au.net:monash/eass/moodle-local_redislock.git
+[submodule "local/remoteassessment"]
+	branch = mdl45-monash-eassess
+	path = local/remoteassessment
+	url = git@git.catalyst-au.net:monash/eass/moodle-local_remoteassessment.git
+[submodule "local/simplehistory"]
+	branch = mdl45-monash-eassess
+	path = local/simplehistory
+	url = git@git.catalyst-au.net:monash/eass/moodle-local_simplehistory.git
+[submodule "local/useroverrides"]
+	branch = mdl45-monash-eassess
+	path = local/useroverrides
+	url = git@git.catalyst-au.net:monash/eass/moodle-local_useroverrides.git
+[submodule "local/webworkers"]
+	branch = mdl45-monash-eassess
+	path = local/webworkers
+	url = git@git.catalyst-au.net:monash/eass/moodle-local_webworkers.git
+[submodule "mod/quiz/accessrule/autoactivate"]
+	branch = mdl45-monash-eassess
+	path = mod/quiz/accessrule/autoactivate
+	url = git@git.catalyst-au.net:monash/eass/moodle-quizaccess_autoactivate.git
+[submodule "mod/quiz/accessrule/evigilation"]
+	branch = mdl45-monash-eassess
+	path = mod/quiz/accessrule/evigilation
+	url = git@git.catalyst-au.net:monash/eass/moodle-quizaccess_evigilation.git
+[submodule "mod/quiz/accessrule/mutimelimit"]
+	branch = mdl45-monash-eassess
+	path = mod/quiz/accessrule/mutimelimit
+	url = git@git.catalyst-au.net:monash/eass/moodle-quizaccess_mutimelimit.git
+[submodule "mod/quiz/report/mugrading"]
+	branch = mdl45-monash-eassess
+	path = mod/quiz/report/mugrading
+	url = git@git.catalyst-au.net:monash/eass/moodle-quiz_mugrading.git
+[submodule "mod/quiz/report/muoverview"]
+	branch = mdl45-monash-eassess
+	path = mod/quiz/report/muoverview
+	url = git@git.catalyst-au.net:monash/eass/moodle-quiz_muoverview.git
+[submodule "mod/quiz/report/muresponses"]
+	branch = mdl45-monash-eassess
+	path = mod/quiz/report/muresponses
+	url = git@git.catalyst-au.net:monash/eass/moodle-quiz_muresponses.git
+[submodule "mod/quiz/report/responsereplay"]
+	branch = mdl45-monash-eassess
+	path = mod/quiz/report/responsereplay
+	url = git@git.catalyst-au.net:monash/eass/moodle-quiz_responsereplay.git
+[submodule "mod/quiz/report/responsesexport"]
+	branch = mdl45-monash-eassess
+	path = mod/quiz/report/responsesexport
+	url = git@git.catalyst-au.net:monash/eass/moodle-quiz_responsesexport.git
+[submodule "plagiarism/turnitin"]
+	branch = mdl45-monash-eassess
+	path = plagiarism/turnitin
+	url = git@git.catalyst-au.net:monash/eass/moodle-plagiarism_turnitin.git
+[submodule "question/behaviour/adaptivemultipart"]
+	branch = master
+	path = question/behaviour/adaptivemultipart
+	url = git@github.com:maths/moodle-qbehaviour_adaptivemultipart.git
+[submodule "question/behaviour/dfcbmexplicitvaildate"]
+	branch = master
+	path = question/behaviour/dfcbmexplicitvaildate
+	url = git@github.com:maths/moodle-qbehaviour_dfcbmexplicitvaildate.git
+[submodule "question/behaviour/dfexplicitvaildate"]
+	branch = master
+	path = question/behaviour/dfexplicitvaildate
+	url = git@github.com:maths/moodle-qbehaviour_dfexplicitvaildate.git
+[submodule "question/behaviour/monasheass"]
+	branch = mdl45-monash-eassess
+	path = question/behaviour/monasheass
+	url = git@git.catalyst-au.net:monash/eass/moodle-qbehaviour_monasheass.git
+[submodule "question/behaviour/monasheassinfoitem"]
+	branch = mdl45-monash-eassess
+	path = question/behaviour/monasheassinfoitem
+	url = git@git.catalyst-au.net:monash/eass/moodle-qbehaviour_monasheassinfoitem.git
+[submodule "question/behaviour/monasheassinformationitem"]
+	branch = mdl45-monash-eassess
+	path = question/behaviour/monasheassinformationitem
+	url = git@git.catalyst-au.net:monash/eass/moodle-qbehaviour_monasheassinformationitem.git
+[submodule "question/behaviour/monasheassmanualgraded"]
+	branch = mdl45-monash-eassess
+	path = question/behaviour/monasheassmanualgraded
+	url = git@git.catalyst-au.net:monash/eass/moodle-qbehaviour_monasheassmanualgraded.git
+[submodule "question/type/composite"]
+	path = question/type/composite
+	url = git@git.catalyst-au.net:monash/eass/moodle-qtype_composite.git
+[submodule "question/type/kami"]
+	branch = mdl45-monash-eassess
+	path = question/type/kami
+	url = git@git.catalyst-au.net:monash/eass/moodle-qtype_kami.git
+[submodule "question/type/matrix"]
+	branch = master
+	path = question/type/matrix
+	url = git@github.com:ndunand/moodle-qtype_matrix.git
+[submodule "question/type/stack"]
+	branch = master
+	path = question/type/stack
+	url = git@github.com:maths/moodle-qtype_stack.git
+[submodule "question/type/tezessay"]
+	path = question/type/tezessay
+	url = git@git.catalyst-au.net:monash/eass/moodle-qtype_tezessay.git
 [submodule "report/benchmark"]
 	autoupdate = merge
 	branch = master
@@ -191,3 +417,31 @@
 	branch = MOODLE_404_STABLE
 	path = search/engine/elastic
 	url = git@github.com:mattporritt/moodle-search_elastic.git
+[submodule "theme/monash"]
+	branch = mdl45-monash
+	path = theme/monash
+	url = git@git.catalyst-au.net:monash/EnterpriseMoodle/mdl-theme_monash.git
+[submodule "theme/monasheass"]
+	branch = mdl45-monash-eassess
+	path = theme/monasheass
+	url = git@git.catalyst-au.net:monash/eass/theme_monasheass.git
+[submodule "theme/monasheass_deuteranopia"]
+	branch = mdl45-monash-eassess
+	path = theme/monasheass_deuteranopia
+	url = git@git.catalyst-au.net:monash/eass/theme_monasheass_deuteranopia.git
+[submodule "theme/monasheass_protanopia"]
+	branch = mdl45-monash-eassess
+	path = theme/monasheass_protanopia
+	url = git@git.catalyst-au.net:monash/eass/theme_monasheass_protanopia.git
+[submodule "theme/monasheass_tritanopia"]
+	branch = mdl45-monash-eassess
+	path = theme/monasheass_tritanopia
+	url = git@git.catalyst-au.net:monash/eass/theme_monasheass_tritanopia.git
+[submodule "theme/monashprint"]
+	branch = mdl45-monash-eassess
+	path = theme/monashprint
+	url = git@git.catalyst-au.net:monash/eass/moodle-theme_monashprint.git
+[submodule "user/profile/field/eoid"]
+	branch = mdl45-monash
+	path = user/profile/field/eoid
+	url = git@git.catalyst-au.net:monash/moodle-profilefield_eoid.git
