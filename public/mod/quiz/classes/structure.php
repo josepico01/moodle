@@ -180,7 +180,9 @@ class structure {
      * @return bool
      */
     public function can_display_number_be_customised(int $slotnumber): bool {
-        return $this->is_real_question($slotnumber) && !quiz_has_attempts($this->quizobj->get_quizid());
+        $allowed = has_capability('mod/quiz:customisequestionnumbers', $this->quizobj->get_context());
+
+        return $allowed && $this->is_real_question($slotnumber) && !quiz_has_attempts($this->quizobj->get_quizid());
     }
 
     /**
@@ -192,7 +194,7 @@ class structure {
      */
     public function make_slot_display_number_in_place_editable(int $slotid, \context $context): \core\output\inplace_editable {
         $slot = $this->get_slot_by_id($slotid);
-        $editable = has_capability('mod/quiz:manage', $context);
+        $editable = has_capability('mod/quiz:manage', $context) && $this->can_display_number_be_customised($slot->slot);
 
         // Get the current value.
         $value = $slot->displaynumber ?? $slot->defaultnumber;

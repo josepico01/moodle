@@ -30,6 +30,8 @@ use moodle_exception;
  * Web service method to update the properties of one or more slots in a quiz.
  *
  * The user must have the 'mod/quiz:manage' capability for the quiz.
+ * If 'displaynumber' is included in the request, the 'mod/quiz:customisequestionnumbers'
+ * capability is additionally required.
  *
  * All the properties that can be set are optional. Only the ones passed are changed.
  * The full properties of the updated slot are returned.
@@ -109,6 +111,7 @@ class update_slots extends external_api {
             $slot = $structure->get_slot_by_id($slotdata['id']);
 
             if (isset($slotdata['displaynumber'])) {
+                require_capability('mod/quiz:customisequestionnumbers', $quizobj->get_context());
                 $structure->update_slot_display_number($slot->id, $slotdata['displaynumber']);
             }
             if (isset($slotdata['requireprevious'])) {
