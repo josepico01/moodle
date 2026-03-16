@@ -180,9 +180,9 @@ class structure {
      * @return bool
      */
     public function can_display_number_be_customised(int $slotnumber): bool {
-        $allowed = has_capability('mod/quiz:customisequestionnumbers', $this->quizobj->get_context());
-
-        return $allowed && $this->is_real_question($slotnumber) && !quiz_has_attempts($this->quizobj->get_quizid());
+        return $this->is_real_question($slotnumber)
+            && !quiz_has_attempts($this->quizobj->get_quizid())
+            && has_capability('mod/quiz:customisequestionnumbers', $this->quizobj->get_context());
     }
 
     /**

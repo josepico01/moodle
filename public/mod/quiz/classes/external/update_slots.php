@@ -102,6 +102,13 @@ class update_slots extends external_api {
         require_capability('mod/quiz:manage', $quizobj->get_context());
         self::validate_context($quizobj->get_context());
 
+        foreach ($slotsdata as $slotdata) {
+            if (isset($slotdata['displaynumber'])) {
+                require_capability('mod/quiz:customisequestionnumbers', $quizobj->get_context());
+                break;
+            }
+        }
+
         $transaction = $DB->start_delegated_transaction();
 
         $structure = $quizobj->get_structure();
@@ -111,7 +118,6 @@ class update_slots extends external_api {
             $slot = $structure->get_slot_by_id($slotdata['id']);
 
             if (isset($slotdata['displaynumber'])) {
-                require_capability('mod/quiz:customisequestionnumbers', $quizobj->get_context());
                 $structure->update_slot_display_number($slot->id, $slotdata['displaynumber']);
             }
             if (isset($slotdata['requireprevious'])) {
