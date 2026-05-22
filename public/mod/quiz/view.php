@@ -41,14 +41,6 @@ $id = optional_param('id', 0, PARAM_INT); // Course Module ID, or ...
 $q = optional_param('q',  0, PARAM_INT);  // Quiz ID.
 
 if ($id) {
-    [$course, $cm] = get_course_and_cm_from_cmid($id, 'quiz');
-} else {
-    [$course, $cm] = get_course_and_cm_from_instance($q, 'quiz');
-}
-// Ensure the user is logged in before building $quizobj, as user-specific overrides may need to be applied.
-require_login($course, false, $cm);
-
-if ($id) {
     $quizobj = quiz_settings::create_for_cmid($id, $USER->id);
 } else {
     $quizobj = quiz_settings::create($q, $USER->id);
@@ -57,8 +49,13 @@ $quiz = $quizobj->get_quiz();
 $cm = $quizobj->get_cm();
 $course = $quizobj->get_course();
 
+// Check login and get context.
+require_login($course, false, $cm);
 $context = $quizobj->get_context();
 require_capability('mod/quiz:view', $context);
+
+// Apply overrides.
+$quiz = quiz_update_effective_access($quiz, $USER->id);
 
 // Cache some other capabilities we use several times.
 $canattempt = has_capability('mod/quiz:attempt', $context);
