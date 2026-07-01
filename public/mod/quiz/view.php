@@ -39,6 +39,7 @@ require_once($CFG->dirroot . '/course/format/lib.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course Module ID, or ...
 $q = optional_param('q',  0, PARAM_INT);  // Quiz ID.
+$preloginuserid = $USER->id;
 
 if ($id) {
     $quizobj = quiz_settings::create_for_cmid($id, $USER->id);
@@ -55,7 +56,9 @@ $context = $quizobj->get_context();
 require_capability('mod/quiz:view', $context);
 
 // Apply overrides.
-$quiz = quiz_update_effective_access($quiz, $USER->id);
+if ($USER->id !== $preloginuserid) {
+    $quiz = quiz_update_effective_access($quiz, $USER->id);
+}
 
 // Cache some other capabilities we use several times.
 $canattempt = has_capability('mod/quiz:attempt', $context);
